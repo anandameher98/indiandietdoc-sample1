@@ -553,7 +553,7 @@ function Transformations() {
                     y={l.y}
                     fill="rgba(255,255,255,0.55)"
                     fontSize="11"
-                    textAnchor={l.anchor}
+                    textAnchor={l.anchor as "start" | "middle" | "end"}
                     className="opacity-0 group-hover:opacity-100"
                     style={{ transition: "opacity 0.4s ease 1.6s" }}
                   >
