@@ -428,9 +428,48 @@ function Programs() {
 /* ---------------- TRANSFORMATIONS ---------------- */
 function Transformations() {
   const items = [
-    { img: transform1, name: "Rahul S.", duration: "16 weeks", lost: "22 kg", quote: "Coach Plawan changed my life. The plan fit my routine perfectly." },
-    { img: transform2, name: "Priya K.", duration: "20 weeks", lost: "18 kg", quote: "I finally understood nutrition. Sustainable and beautiful results." },
-    { img: transform3, name: "Vikram R.", duration: "24 weeks", lost: "26 kg", quote: "At 52, I feel stronger than I did at 32. Life-changing coaching." },
+    {
+      img: transform1,
+      name: "Rahul S.",
+      metric: "26",
+      unit: "kg",
+      label: "Weight lost",
+      quote: "From 118 kg to 92 kg and 15% body fat — Coach Plawan gave me my life back.",
+      points: "20,50 90,95 160,150 230,200 300,240",
+      labels: [
+        { x: 20, y: 268, text: "118 kg", anchor: "start" },
+        { x: 160, y: 268, text: "100 kg", anchor: "middle" },
+        { x: 300, y: 268, text: "92 kg", anchor: "end" },
+      ],
+    },
+    {
+      img: transform2,
+      name: "Priya K.",
+      metric: "85",
+      unit: "mg/dL",
+      label: "Diabetes reversed",
+      quote: "Reversed pre-diabetes, lost 18 kg and gained energy — thanks to Coach Plawan.",
+      points: "20,60 90,85 160,140 230,190 300,235",
+      labels: [
+        { x: 20, y: 268, text: "180", anchor: "start" },
+        { x: 160, y: 268, text: "120", anchor: "middle" },
+        { x: 300, y: 268, text: "85", anchor: "end" },
+      ],
+    },
+    {
+      img: transform3,
+      name: "Vikram R.",
+      metric: "26",
+      unit: "kg",
+      label: "Life-changing at 52",
+      quote: "At 52, I feel stronger than I did at 32. Sustainable results, every week.",
+      points: "20,55 90,110 160,155 230,210 300,245",
+      labels: [
+        { x: 20, y: 268, text: "108 kg", anchor: "start" },
+        { x: 160, y: 268, text: "94 kg", anchor: "middle" },
+        { x: 300, y: 268, text: "82 kg", anchor: "end" },
+      ],
+    },
   ];
   return (
     <section id="transformations" className="py-32">
@@ -441,6 +480,7 @@ function Transformations() {
             <h2 className="mt-4 text-4xl md:text-5xl font-bold leading-tight">
               Client <span className="text-gradient-green">Transformations</span>.
             </h2>
+            <p className="mt-4 text-white/60 max-w-xl">Hover a story to watch the transformation unfold.</p>
           </div>
           <div className="text-right">
             <div className="text-4xl font-bold text-primary">500+</div>
@@ -449,29 +489,91 @@ function Transformations() {
         </div>
 
         <div className="grid md:grid-cols-3 gap-6">
-          {items.map(t => (
-            <div key={t.name} className="group rounded-3xl overflow-hidden border border-white/8 bg-card hover-lift">
-              <div className="relative aspect-[4/3] overflow-hidden">
-                <img src={t.img} alt={`${t.name} transformation`} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" loading="lazy" width={1200} height={900} />
-                <div className="absolute top-4 left-4 flex gap-2">
-                  <span className="px-3 py-1 rounded-full bg-black/60 backdrop-blur text-[10px] uppercase tracking-widest">Before</span>
-                  <span className="px-3 py-1 rounded-full bg-primary text-primary-foreground text-[10px] uppercase tracking-widest">After</span>
+          {items.map((t) => (
+            <div
+              key={t.name}
+              className="group relative rounded-3xl overflow-hidden border border-white/8 bg-card aspect-[3/4] cursor-pointer transition-transform duration-500 hover:-translate-y-1"
+            >
+              <img
+                src={t.img}
+                alt={`${t.name} transformation`}
+                className="absolute inset-0 w-full h-full object-cover transition-all duration-[900ms] ease-out group-hover:scale-110 group-hover:blur-md group-hover:opacity-30"
+                loading="lazy"
+                width={1200}
+                height={1600}
+              />
+              <div className="absolute inset-0 bg-gradient-to-b from-black/10 via-black/30 to-black/85 opacity-70 group-hover:opacity-95 transition-opacity duration-700" />
+
+              <div className="absolute top-6 left-6 right-6 z-10">
+                <div className="flex items-baseline gap-2">
+                  <span className="text-5xl font-bold tracking-tight">{t.metric}</span>
+                  <span className="text-sm text-white/70">{t.unit}</span>
+                </div>
+                <div className="mt-1 text-xs uppercase tracking-[0.2em] text-white/60 flex items-center gap-1.5">
+                  {t.label}
+                  <TrendingUp className="w-3 h-3" />
                 </div>
               </div>
-              <div className="p-6">
-                <div className="flex items-center justify-between">
-                  <div className="font-semibold">{t.name}</div>
+
+              <svg
+                viewBox="0 0 320 280"
+                preserveAspectRatio="none"
+                className="absolute left-4 right-4 top-[30%] h-[50%] opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-200 pointer-events-none"
+                aria-hidden
+              >
+                <line x1="20" y1="255" x2="300" y2="255" stroke="rgba(255,255,255,0.15)" strokeWidth="1" />
+                <polyline
+                  points={t.points}
+                  fill="none"
+                  stroke="rgba(255,255,255,0.95)"
+                  strokeWidth="1.5"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  className="[stroke-dasharray:800] [stroke-dashoffset:800] group-hover:[stroke-dashoffset:0] [transition:stroke-dashoffset_1.8s_cubic-bezier(0.16,1,0.3,1)_250ms]"
+                />
+                {t.points.split(" ").map((pt, i, arr) => {
+                  const [x, y] = pt.split(",");
+                  const delay = 0.25 + (i / (arr.length - 1)) * 1.55;
+                  return (
+                    <circle
+                      key={i}
+                      cx={x}
+                      cy={y}
+                      r="3"
+                      fill="white"
+                      className="opacity-0 group-hover:opacity-100"
+                      style={{ transition: `opacity 0.3s ease ${delay}s` }}
+                    />
+                  );
+                })}
+                {t.labels.map((l, i) => (
+                  <text
+                    key={i}
+                    x={l.x}
+                    y={l.y}
+                    fill="rgba(255,255,255,0.55)"
+                    fontSize="11"
+                    textAnchor={l.anchor as "start" | "middle" | "end"}
+                    className="opacity-0 group-hover:opacity-100"
+                    style={{ transition: "opacity 0.4s ease 1.6s" }}
+                  >
+                    {l.text}
+                  </text>
+                ))}
+              </svg>
+
+              <div className="absolute bottom-0 inset-x-0 p-6 z-10">
+                <p className="text-sm md:text-[15px] leading-relaxed text-white/95 translate-y-2 opacity-90 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500">
+                  {t.quote}
+                </p>
+                <div className="mt-3 flex items-center justify-between">
+                  <div className="text-xs text-white/60">— {t.name}</div>
                   <div className="flex gap-0.5">
                     {Array.from({ length: 5 }).map((_, i) => (
-                      <Star key={i} className="w-3.5 h-3.5 fill-primary text-primary" />
+                      <Star key={i} className="w-3 h-3 fill-primary text-primary" />
                     ))}
                   </div>
                 </div>
-                <div className="flex gap-4 mt-3 text-xs text-white/60">
-                  <span className="flex items-center gap-1"><Clock className="w-3 h-3" /> {t.duration}</span>
-                  <span className="flex items-center gap-1"><TrendingUp className="w-3 h-3" /> Lost {t.lost}</span>
-                </div>
-                <p className="mt-4 text-sm text-white/70 italic">"{t.quote}"</p>
               </div>
             </div>
           ))}
