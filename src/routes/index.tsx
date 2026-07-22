@@ -1,10 +1,11 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
 import { useState, useEffect } from "react";
 import {
   Dumbbell, Salad, Scale, Heart, Activity, User, Users, Award, Clock, Star,
   ArrowRight, Check, Play, MessageCircle, Mail, Phone, MapPin, Menu, X,
   ChevronDown, Zap, Target, TrendingUp, Shield, Calendar, BookOpen, Download,
-  Instagram, Youtube, Facebook, Twitter,
+  Instagram, Youtube, Facebook, Twitter,Sparkles, HeartPulse, Trophy
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
@@ -39,7 +40,10 @@ export const Route = createFileRoute("/")({
   }),
   component: Home,
 });
-
+const fadeUp = {
+  hidden: { opacity: 0, y: 30 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.7, ease: "easeOut" } },
+} as const;
 function Home() {
   return (
     <div className="min-h-screen bg-background text-foreground overflow-x-hidden">
@@ -47,10 +51,12 @@ function Home() {
       <Hero />
       <Marquee />
       <About />
+      <About2 />
       <Services />
       <WhyChoose />
       <Programs />
       <Transformations />
+      <Transformations2 />
       <VideoGallery />
       <Store />
       <DietPlan />
@@ -285,6 +291,114 @@ function About() {
         </div>
       </div>
     </section>
+  );
+}
+
+/* -------------------------- about -------------------------- */
+function Section({
+  id,
+  eyebrow,
+  title,
+  subtitle,
+  children,
+  className = "",
+}: {
+  id?: string;
+  eyebrow?: string;
+  title?: React.ReactNode;
+  subtitle?: string;
+  children?: React.ReactNode;
+  className?: string;
+}) {
+  return (
+    <section id={id} className={`relative py-24 md:py-32 px-6 ${className}`}>
+      <div className="max-w-7xl mx-auto">
+        {(eyebrow || title || subtitle) && (
+          <motion.div
+            variants={fadeUp}
+            initial="hidden"
+            whileInView="show"
+            viewport={{ once: true, margin: "-80px" }}
+            className="max-w-3xl mb-16"
+          >
+            {eyebrow && (
+              <div className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.25em] text-primary mb-5">
+                <span className="h-px w-8 bg-primary" />
+                {eyebrow}
+              </div>
+            )}
+            {title && (
+              <h2 className="text-4xl md:text-6xl font-bold text-gradient leading-[1.05]">
+                {title}
+              </h2>
+            )}
+            {subtitle && (
+              <p className="mt-6 text-lg text-muted-foreground max-w-2xl">{subtitle}</p>
+            )}
+          </motion.div>
+        )}
+        {children}
+      </div>
+    </section>
+  );
+}
+function About2() {
+  return (
+    <Section id="about" eyebrow="About" className="border-t border-border">
+      <div className="grid lg:grid-cols-2 gap-16 items-center">
+        <motion.div
+          initial={{ opacity: 0, scale: 0.95 }}
+          whileInView={{ opacity: 1, scale: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.9 }}
+          className="relative"
+        >
+          <div className="absolute -inset-4 rounded-3xl bg-primary/10 blur-2xl" />
+          <div className="relative rounded-3xl overflow-hidden border border-border">
+            <img
+              src={coachHero}
+              alt="Head coach"
+              width={1000}
+              height={1200}
+              loading="lazy"
+              className="w-full aspect-[4/5] object-cover"
+            />
+          </div>
+          <div className="absolute -bottom-6 -right-6 glass rounded-2xl p-5 max-w-[220px]">
+            <div className="text-xs uppercase tracking-widest text-primary">Certified</div>
+            <div className="mt-1 text-sm text-foreground">
+              ISSA · NASM · Precision Nutrition L2
+            </div>
+          </div>
+        </motion.div>
+
+        <motion.div variants={fadeUp} initial="hidden" whileInView="show" viewport={{ once: true }}>
+          <h2 className="text-4xl md:text-5xl font-bold leading-tight text-gradient">
+            A decade of turning bodies — and lives — around.
+          </h2>
+          <p className="mt-6 text-lg text-muted-foreground leading-relaxed">
+            I'm <span className="text-foreground font-semibold">Plawan Hota</span>, a certified fitness coach and nutrition specialist obsessed with one thing:
+            sustainable transformation. No fad diets. No crash workouts. Just a personalized,
+            science-backed system that fits your life — and finally works.
+          </p>
+
+          <div className="mt-10 grid sm:grid-cols-2 gap-5">
+            {[
+              { icon: Sparkles, title: "Mission", body: "Make elite coaching accessible to anyone serious about change." },
+              { icon: HeartPulse, title: "Vision", body: "A world where fitness is a lifestyle, not a punishment." },
+              { icon: Trophy, title: "Experience", body: "10+ years, 1000+ clients across 20+ countries." },
+              { icon: Users, title: "Values", body: "Honesty, science, empathy, and relentless follow-through." },
+            ].map((v) => (
+              <div key={v.title} className="rounded-2xl border border-border bg-card p-5">
+                <v.icon className="h-5 w-5 text-primary" />
+                <div className="mt-3 font-semibold">{v.title}</div>
+                <div className="mt-1 text-sm text-muted-foreground">{v.body}</div>
+              </div>
+            ))}
+          </div>
+        </motion.div>
+      </div>
+    </Section>
   );
 }
 
@@ -583,6 +697,208 @@ function Transformations() {
   );
 }
 
+/* -------------------------- transformations -------------------------- */
+
+type Point = { x: number; y: number; label: string };
+type TCard = {
+  initials: string;
+  img:any;
+  gradient: string;
+  metric: string;
+  unit: string;
+  metricLabel: string;
+  caption: string;
+  points: Point[]; // 3 points, x/y in 0-100 within chart box
+};
+
+const transformations: TCard[] = [
+  {
+    initials: "RM",
+    img: transform1,
+    gradient: "from-neutral-700 via-neutral-800 to-black",
+    metric: "120",
+    unit: "mmHg",
+    metricLabel: "Blood pressure",
+    caption: "From 118 kg to 92 kg and 15% body fat, coaching gave me my life back.",
+    points: [
+      { x: 12, y: 20, label: "118 kg" },
+      { x: 50, y: 55, label: "100 kg" },
+      { x: 88, y: 85, label: "92 kg" },
+    ],
+  },
+  {
+    initials: "PS",
+    img: transform2,
+    gradient: "from-emerald-900 via-neutral-800 to-black",
+    metric: "85",
+    unit: "mg/dL",
+    metricLabel: "Diabetes",
+    caption: "Reversed diabetes, lost 17 kg, and gained energy, thanks to Indian Diet Doc.",
+    points: [
+      { x: 12, y: 55, label: "200 mg/dl" },
+      { x: 50, y: 25, label: "220 mg/dl" },
+      { x: 88, y: 82, label: "85 mg/dl" },
+    ],
+  },
+  {
+    initials: "AK",
+    img: transform3,
+    gradient: "from-amber-900 via-neutral-800 to-black",
+    metric: "17",
+    unit: "kg",
+    metricLabel: "Diabetes reversed",
+    caption: "I reversed diabetes, lost 17 kg, and no longer need medication — thanks to Plawan.",
+    points: [
+      { x: 12, y: 22, label: "89 kg" },
+      { x: 50, y: 58, label: "80 kg" },
+      { x: 88, y: 88, label: "74 kg" },
+    ],
+  },
+  {
+    initials: "ML",
+    img: transform1,
+    gradient: "from-rose-900 via-neutral-800 to-black",
+    metric: "35",
+    unit: "kg",
+    metricLabel: "Weight lost",
+    caption: "From PCOD and obesity to inspiring others, going from 92.5 kg to 57 kg.",
+    points: [
+      { x: 12, y: 20, label: "94 kg" },
+      { x: 50, y: 55, label: "87 kg" },
+      { x: 88, y: 85, label: "59 kg" },
+    ],
+  },
+];
+
+function TransformationCard({ t }: { t: TCard }) {
+  const [hover, setHover] = useState(false);
+  const pathD = `M ${t.points[0].x} ${t.points[0].y} L ${t.points[1].x} ${t.points[1].y} L ${t.points[2].x} ${t.points[2].y}`;
+  return (
+    <div
+      onMouseEnter={() => setHover(true)}
+      onMouseLeave={() => setHover(false)}
+      className="group relative rounded-2xl overflow-hidden aspect-[3/4] border border-border cursor-pointer"
+    >
+      {/* portrait background */}
+      {/* <div
+        className={`absolute inset-0 bg-gradient-to-b ${t.gradient} flex items-center justify-center text-7xl font-bold text-white/10 transition-all duration-500 ${
+          hover ? "blur-xl scale-110" : "blur-0 scale-100"
+        }`}
+      >
+        {t.initials}
+      </div>
+      <div
+        className={`absolute inset-0 transition-opacity duration-500 ${
+          hover ? "opacity-100 bg-black/40" : "opacity-0"
+        }`}
+      /> */}
+      <img
+                src={t.img}
+                alt={`${t.initials} transformation`}
+                className="absolute inset-0 w-full h-full object-cover transition-all duration-[900ms] ease-out group-hover:scale-110 group-hover:blur-md group-hover:opacity-30"
+                loading="lazy"
+                width={1200}
+                height={1600}
+              />
+
+      {/* top-left metric */}
+      <div className="absolute top-4 left-4 z-10">
+        <div className="flex items-baseline gap-1.5">
+          <span className="text-3xl font-bold text-white leading-none">{t.metric}</span>
+          <span className="text-sm text-white/80">{t.unit}</span>
+        </div>
+        <div className="mt-1 text-xs text-white/70 flex items-center gap-1">
+          {t.metricLabel}
+          <span className="inline-block">↘</span>
+        </div>
+      </div>
+
+      {/* graph overlay */}
+      <div
+        className={`absolute inset-x-6 top-20 bottom-24 transition-all duration-500 ${
+          hover ? "opacity-100 translate-y-0" : "opacity-0 translate-y-2"
+        }`}
+      >
+        <svg viewBox="0 0 100 100" preserveAspectRatio="none" className="absolute inset-0 h-full w-full overflow-visible">
+          <path
+            d={pathD}
+            fill="none"
+            stroke="white"
+            strokeWidth="0.6"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            style={{
+              strokeDasharray: 300,
+              strokeDashoffset: hover ? 0 : 300,
+              transition: "stroke-dashoffset 900ms ease-out",
+            }}
+          />
+          {t.points.map((p, idx) => (
+            <line
+              key={`v-${idx}`}
+              x1={p.x}
+              x2={p.x}
+              y1={p.y}
+              y2={100}
+              stroke="white"
+              strokeWidth="0.3"
+              strokeDasharray="1 1.5"
+              style={{
+                opacity: hover ? 0.5 : 0,
+                transition: `opacity 300ms ease ${500 + idx * 200}ms`,
+              }}
+            />
+          ))}
+          {t.points.map((p, idx) => (
+            <circle
+              key={idx}
+              cx={p.x}
+              cy={p.y}
+              r="1.6"
+              fill="white"
+              style={{
+                opacity: hover ? 1 : 0,
+                transition: `opacity 300ms ease ${400 + idx * 200}ms`,
+              }}
+            />
+          ))}
+        </svg>
+        {/* x-axis labels */}
+        <div
+          className={`absolute -bottom-6 inset-x-0 flex justify-between text-[11px] text-white/70 transition-opacity duration-500 delay-500 ${
+            hover ? "opacity-100" : "opacity-0"
+          }`}
+        >
+          {t.points.map((p) => (
+            <span key={p.label}>{p.label}</span>
+          ))}
+        </div>
+      </div>
+
+      {/* caption */}
+      <div className="absolute inset-x-0 bottom-0 p-4 text-center text-sm text-white/90 bg-gradient-to-t from-black/80 to-transparent pt-10">
+        {t.caption}
+      </div>
+    </div>
+  );
+}
+
+function Transformations2() {
+  return (
+    <Section
+      id="results"
+      eyebrow="Transformations"
+      title={<>Real people. <span className="text-primary">Real results.</span></>}
+      className="bg-[#0a0a0a] border-y border-border"
+    >
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
+        {transformations.map((t) => (
+          <TransformationCard key={t.initials} t={t} />
+        ))}
+      </div>
+    </Section>
+  );
+}
 /* ---------------- VIDEO GALLERY ---------------- */
 function VideoGallery() {
   const cats = ["Nutrition", "Workout", "Transformation", "Recipes", "Motivation"];
