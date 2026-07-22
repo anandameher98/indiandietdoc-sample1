@@ -795,7 +795,7 @@ function TransformationCard({ t }: { t: TCard }) {
       <img
                 src={t.img}
                 alt={`${t.initials} transformation`}
-                className="absolute inset-0 w-full h-full object-cover transition-all duration-[900ms] ease-out group-hover:scale-110 group-hover:blur-md group-hover:opacity-30"
+                className="absolute inset-0 w-full h-full object-cover transition-all duration-[900ms] ease-out group-hover:scale-110 group-hover:blur-sm group-hover:opacity-20"
                 loading="lazy"
                 width={1200}
                 height={1600}
@@ -891,7 +891,7 @@ function Transformations2() {
       title={<>Real people. <span className="text-primary">Real results.</span></>}
       className="bg-[#0a0a0a] border-y border-border"
     >
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
+      <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
         {transformations.map((t) => (
           <TransformationCard key={t.initials} t={t} />
         ))}
