@@ -702,6 +702,7 @@ function Transformations() {
 type Point = { x: number; y: number; label: string };
 type TCard = {
   initials: string;
+  img:any;
   gradient: string;
   metric: string;
   unit: string;
@@ -713,6 +714,7 @@ type TCard = {
 const transformations: TCard[] = [
   {
     initials: "RM",
+    img: transform1,
     gradient: "from-neutral-700 via-neutral-800 to-black",
     metric: "120",
     unit: "mmHg",
@@ -726,6 +728,7 @@ const transformations: TCard[] = [
   },
   {
     initials: "PS",
+    img: transform2,
     gradient: "from-emerald-900 via-neutral-800 to-black",
     metric: "85",
     unit: "mg/dL",
@@ -739,6 +742,7 @@ const transformations: TCard[] = [
   },
   {
     initials: "AK",
+    img: transform3,
     gradient: "from-amber-900 via-neutral-800 to-black",
     metric: "17",
     unit: "kg",
@@ -752,6 +756,7 @@ const transformations: TCard[] = [
   },
   {
     initials: "ML",
+    img: transform1,
     gradient: "from-rose-900 via-neutral-800 to-black",
     metric: "35",
     unit: "kg",
@@ -775,7 +780,7 @@ function TransformationCard({ t }: { t: TCard }) {
       className="group relative rounded-2xl overflow-hidden aspect-[3/4] border border-border cursor-pointer"
     >
       {/* portrait background */}
-      <div
+      {/* <div
         className={`absolute inset-0 bg-gradient-to-b ${t.gradient} flex items-center justify-center text-7xl font-bold text-white/10 transition-all duration-500 ${
           hover ? "blur-xl scale-110" : "blur-0 scale-100"
         }`}
@@ -786,7 +791,15 @@ function TransformationCard({ t }: { t: TCard }) {
         className={`absolute inset-0 transition-opacity duration-500 ${
           hover ? "opacity-100 bg-black/40" : "opacity-0"
         }`}
-      />
+      /> */}
+      <img
+                src={t.img}
+                alt={`${t.initials} transformation`}
+                className="absolute inset-0 w-full h-full object-cover transition-all duration-[900ms] ease-out group-hover:scale-110 group-hover:blur-md group-hover:opacity-30"
+                loading="lazy"
+                width={1200}
+                height={1600}
+              />
 
       {/* top-left metric */}
       <div className="absolute top-4 left-4 z-10">
