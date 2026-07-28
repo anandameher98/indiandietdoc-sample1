@@ -50,12 +50,10 @@ function Home() {
       <Nav />
       <Hero />
       <Marquee />
-      <About />
       <About2 />
       <Services />
       <WhyChoose />
       <Programs />
-      <Transformations />
       <Transformations2 />
       <VideoGallery />
       <Store />
@@ -815,7 +813,7 @@ function TransformationCard({ t }: { t: TCard }) {
 
       {/* graph overlay */}
       <div
-        className={`absolute inset-x-6 top-20 bottom-24 transition-all duration-500 ${
+        className={`absolute inset-x-6 top-10 bottom-28 transition-all duration-500 ${
           hover ? "opacity-100 translate-y-0" : "opacity-0 translate-y-2"
         }`}
       >
@@ -886,7 +884,7 @@ function TransformationCard({ t }: { t: TCard }) {
 function Transformations2() {
   return (
     <Section
-      id="results"
+      id="transformations"
       eyebrow="Transformations"
       title={<>Real people. <span className="text-primary">Real results.</span></>}
       className="bg-[#0a0a0a] border-y border-border"
