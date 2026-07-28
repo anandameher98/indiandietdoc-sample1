@@ -20,6 +20,14 @@ import transform3 from "@/assets/transform-3.jpg";
 import book1 from "@/assets/book-1.jpg";
 import book2 from "@/assets/book-2.jpg";
 import book3 from "@/assets/book-3.jpg";
+import c1Before from "@/assets/client-1-before.jpg";
+import c1After from "@/assets/client-1-after.jpg";
+import c2Before from "@/assets/client-2-before.jpg";
+import c2After from "@/assets/client-2-after.jpg";
+import c3Before from "@/assets/client-3-before.jpg";
+import c3After from "@/assets/client-3-after.jpg";
+import c4Before from "@/assets/client-4-before.jpg";
+import c4After from "@/assets/client-4-after.jpg";
 
 export const Route = createFileRoute("/")({
   head: () => ({
