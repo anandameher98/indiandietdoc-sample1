@@ -121,6 +121,7 @@ function Nav() {
             {links.map(([l, h]) => (
               <a key={l} href={h} onClick={() => setOpen(false)} className="text-white/70 hover:text-primary">{l}</a>
             ))}
+            <a href="/purchases" onClick={() => setOpen(false)} className="text-white/70 hover:text-primary">My Purchases</a>
             <Button size="sm" asChild><a href="#programs" onClick={() => setOpen(false)}>Start Now</a></Button>
           </div>
         </div>
