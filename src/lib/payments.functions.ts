@@ -123,5 +123,10 @@ export const listMyPurchases = createServerFn({ method: "GET" })
       .select("id, status, amount_paise, currency, created_at, paid_at, products(name, slug, kind, download_url)")
       .order("created_at", { ascending: false });
     if (error) throw new Error("Could not load your purchases.");
-    return data ?? [];
+    return (data ?? []).map((row) => ({
+      ...row,
+      products: row.products
+        ? { ...row.products, download_url: row.status === "paid" ? row.products.download_url : null }
+        : null,
+    }));
   });
