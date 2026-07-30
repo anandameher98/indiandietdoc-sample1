@@ -8,6 +8,7 @@ import {
   Instagram, Youtube, Facebook, Twitter,Sparkles, HeartPulse, Trophy
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { startCheckout } from "@/lib/razorpay";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -106,6 +107,7 @@ function Nav() {
           ))}
         </nav>
         <div className="hidden lg:flex items-center gap-3">
+          <a href="/purchases" className="text-sm text-white/70 hover:text-primary transition-colors">My Purchases</a>
           <Button variant="outline" size="sm" asChild><a href="#contact">Book Consultation</a></Button>
           <Button size="sm" asChild><a href="#programs">Start Now</a></Button>
         </div>
@@ -119,6 +121,7 @@ function Nav() {
             {links.map(([l, h]) => (
               <a key={l} href={h} onClick={() => setOpen(false)} className="text-white/70 hover:text-primary">{l}</a>
             ))}
+            <a href="/purchases" onClick={() => setOpen(false)} className="text-white/70 hover:text-primary">My Purchases</a>
             <Button size="sm" asChild><a href="#programs" onClick={() => setOpen(false)}>Start Now</a></Button>
           </div>
         </div>
@@ -497,9 +500,9 @@ function WhyChoose() {
 /* ---------------- PROGRAMS / PRICING ---------------- */
 function Programs() {
   const plans = [
-    { name: "Basic", price: "4,999", period: "/month", desc: "Perfect starting point.", features: ["Personalized diet plan", "Basic workout plan", "Bi-weekly check-ins", "Email support", "Recipe book access"], featured: false },
-    { name: "Premium", price: "8,999", period: "/month", desc: "Most popular choice.", features: ["Fully custom diet & training", "Weekly 1-on-1 video calls", "WhatsApp daily support", "Weekly plan adjustments", "All recipe books included", "Supplement guidance"], featured: true },
-    { name: "Elite", price: "14,999", period: "/month", desc: "Total transformation.", features: ["Everything in Premium", "24/7 priority WhatsApp", "Daily meal photo reviews", "Custom video workouts", "Body composition tracking", "Lifestyle & mindset coaching"], featured: false },
+    { slug: "program-basic", name: "Basic", price: "4,999", period: "/month", desc: "Perfect starting point.", features: ["Personalized diet plan", "Basic workout plan", "Bi-weekly check-ins", "Email support", "Recipe book access"], featured: false },
+    { slug: "program-premium", name: "Premium", price: "8,999", period: "/month", desc: "Most popular choice.", features: ["Fully custom diet & training", "Weekly 1-on-1 video calls", "WhatsApp daily support", "Weekly plan adjustments", "All recipe books included", "Supplement guidance"], featured: true },
+    { slug: "program-elite", name: "Elite", price: "14,999", period: "/month", desc: "Total transformation.", features: ["Everything in Premium", "24/7 priority WhatsApp", "Daily meal photo reviews", "Custom video workouts", "Body composition tracking", "Lifestyle & mindset coaching"], featured: false },
   ];
   return (
     <section id="programs" className="py-32 bg-surface relative">
@@ -534,7 +537,7 @@ function Programs() {
                   </li>
                 ))}
               </ul>
-              <Button variant={p.featured ? "hero" : "outline"} size="lg" className="mt-8 w-full">Join Now</Button>
+              <Button variant={p.featured ? "hero" : "outline"} size="lg" className="mt-8 w-full" onClick={() => startCheckout(p.slug)}>Join Now</Button>
             </div>
           ))}
         </div>
@@ -994,10 +997,10 @@ function VideoGallery() {
 /* ---------------- STORE ---------------- */
 function Store() {
   const books = [
-    { img: book1, title: "Healthy Recipe Book", desc: "80+ everyday Indian recipes for fat loss.", price: "499" },
-    { img: book2, title: "High Protein Recipes", desc: "Vegetarian & non-veg high-protein Indian meals.", price: "599" },
-    { img: book3, title: "Indian Meal Prep Guide", desc: "Weekly meal prep made simple for Indian kitchens.", price: "699" },
-    { img: book1, title: "Diabetic Friendly Recipes", desc: "Low-GI Indian recipes for blood sugar balance.", price: "799" },
+    { slug: "healthy-recipe-book", img: book1, title: "Healthy Recipe Book", desc: "80+ everyday Indian recipes for fat loss.", price: "499" },
+    { slug: "high-protein-recipes", img: book2, title: "High Protein Recipes", desc: "Vegetarian & non-veg high-protein Indian meals.", price: "599" },
+    { slug: "indian-meal-prep-guide", img: book3, title: "Indian Meal Prep Guide", desc: "Weekly meal prep made simple for Indian kitchens.", price: "699" },
+    { slug: "diabetic-friendly-recipes", img: book1, title: "Diabetic Friendly Recipes", desc: "Low-GI Indian recipes for blood sugar balance.", price: "799" },
   ];
   return (
     <section id="store" className="py-32">
@@ -1021,7 +1024,7 @@ function Store() {
                 <p className="text-sm text-white/50 mt-2 line-clamp-2">{b.desc}</p>
                 <div className="mt-4 flex items-center justify-between">
                   <div className="text-xl font-bold">₹{b.price}</div>
-                  <Button size="sm">Buy Now</Button>
+                  <Button size="sm" onClick={() => startCheckout(b.slug)}>Buy Now</Button>
                 </div>
               </div>
             </div>
