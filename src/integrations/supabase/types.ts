@@ -14,7 +14,113 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      orders: {
+        Row: {
+          amount_paise: number
+          created_at: string
+          currency: string
+          id: string
+          paid_at: string | null
+          product_id: string
+          razorpay_order_id: string
+          razorpay_payment_id: string | null
+          status: string
+          user_id: string
+        }
+        Insert: {
+          amount_paise: number
+          created_at?: string
+          currency?: string
+          id?: string
+          paid_at?: string | null
+          product_id: string
+          razorpay_order_id: string
+          razorpay_payment_id?: string | null
+          status?: string
+          user_id: string
+        }
+        Update: {
+          amount_paise?: number
+          created_at?: string
+          currency?: string
+          id?: string
+          paid_at?: string | null
+          product_id?: string
+          razorpay_order_id?: string
+          razorpay_payment_id?: string | null
+          status?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "orders_product_id_fkey"
+            columns: ["product_id"]
+            isOneToOne: false
+            referencedRelation: "products"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      products: {
+        Row: {
+          active: boolean
+          amount_paise: number
+          created_at: string
+          currency: string
+          description: string | null
+          download_url: string | null
+          id: string
+          kind: string
+          name: string
+          slug: string
+        }
+        Insert: {
+          active?: boolean
+          amount_paise: number
+          created_at?: string
+          currency?: string
+          description?: string | null
+          download_url?: string | null
+          id?: string
+          kind?: string
+          name: string
+          slug: string
+        }
+        Update: {
+          active?: boolean
+          amount_paise?: number
+          created_at?: string
+          currency?: string
+          description?: string | null
+          download_url?: string | null
+          id?: string
+          kind?: string
+          name?: string
+          slug?: string
+        }
+        Relationships: []
+      }
+      profiles: {
+        Row: {
+          created_at: string
+          full_name: string | null
+          id: string
+          phone: string | null
+        }
+        Insert: {
+          created_at?: string
+          full_name?: string | null
+          id: string
+          phone?: string | null
+        }
+        Update: {
+          created_at?: string
+          full_name?: string | null
+          id?: string
+          phone?: string | null
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
