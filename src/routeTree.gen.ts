@@ -10,12 +10,18 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as AuthRouteImport } from './routes/auth'
+import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuthCallbackRouteImport } from './routes/auth_.callback'
+import { Route as AuthenticatedPurchasesRouteImport } from './routes/_authenticated/purchases'
 
 const AuthRoute = AuthRouteImport.update({
   id: '/auth',
   path: '/auth',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
+  id: '/_authenticated',
   getParentRoute: () => rootRouteImport,
 } as any)
 const IndexRoute = IndexRouteImport.update({
@@ -28,33 +34,49 @@ const AuthCallbackRoute = AuthCallbackRouteImport.update({
   path: '/auth/callback',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthenticatedPurchasesRoute = AuthenticatedPurchasesRouteImport.update({
+  id: '/purchases',
+  path: '/purchases',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
+  '/purchases': typeof AuthenticatedPurchasesRoute
   '/auth/callback': typeof AuthCallbackRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
+  '/purchases': typeof AuthenticatedPurchasesRoute
   '/auth/callback': typeof AuthCallbackRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
   '/auth': typeof AuthRoute
+  '/_authenticated/purchases': typeof AuthenticatedPurchasesRoute
   '/auth_/callback': typeof AuthCallbackRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/auth' | '/auth/callback'
+  fullPaths: '/' | '/auth' | '/purchases' | '/auth/callback'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/auth' | '/auth/callback'
-  id: '__root__' | '/' | '/auth' | '/auth_/callback'
+  to: '/' | '/auth' | '/purchases' | '/auth/callback'
+  id:
+    | '__root__'
+    | '/'
+    | '/_authenticated'
+    | '/auth'
+    | '/_authenticated/purchases'
+    | '/auth_/callback'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
   AuthRoute: typeof AuthRoute
   AuthCallbackRoute: typeof AuthCallbackRoute
 }
@@ -66,6 +88,13 @@ declare module '@tanstack/react-router' {
       path: '/auth'
       fullPath: '/auth'
       preLoaderRoute: typeof AuthRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_authenticated': {
+      id: '/_authenticated'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof AuthenticatedRouteRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/': {
@@ -82,11 +111,30 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthCallbackRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_authenticated/purchases': {
+      id: '/_authenticated/purchases'
+      path: '/purchases'
+      fullPath: '/purchases'
+      preLoaderRoute: typeof AuthenticatedPurchasesRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
   }
 }
 
+interface AuthenticatedRouteRouteChildren {
+  AuthenticatedPurchasesRoute: typeof AuthenticatedPurchasesRoute
+}
+
+const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
+  AuthenticatedPurchasesRoute: AuthenticatedPurchasesRoute,
+}
+
+const AuthenticatedRouteRouteWithChildren =
+  AuthenticatedRouteRoute._addFileChildren(AuthenticatedRouteRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
   AuthRoute: AuthRoute,
   AuthCallbackRoute: AuthCallbackRoute,
 }
