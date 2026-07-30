@@ -107,6 +107,7 @@ function Nav() {
           ))}
         </nav>
         <div className="hidden lg:flex items-center gap-3">
+          <a href="/purchases" className="text-sm text-white/70 hover:text-primary transition-colors">My Purchases</a>
           <Button variant="outline" size="sm" asChild><a href="#contact">Book Consultation</a></Button>
           <Button size="sm" asChild><a href="#programs">Start Now</a></Button>
         </div>
