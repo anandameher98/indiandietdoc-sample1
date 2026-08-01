@@ -29,6 +29,19 @@ import c3Before from "@/assets/client-3-before.jpg";
 import c3After from "@/assets/client-3-after.jpg";
 import c4Before from "@/assets/client-4-before.jpg";
 import c4After from "@/assets/client-4-after.jpg";
+import certNasmAsset from "@/assets/cert-nasm.jpg.asset.json";
+import certCptAsset from "@/assets/cert-cpt.jpg.asset.json";
+import certMptAsset from "@/assets/cert-mpt.jpg.asset.json";
+import certWomenAsset from "@/assets/cert-women.jpg.asset.json";
+import certObesityAsset from "@/assets/cert-obesity.jpg.asset.json";
+import certAceAsset from "@/assets/cert-ace.jpg.asset.json";
+
+const certNasm = certNasmAsset.url;
+const certCpt = certCptAsset.url;
+const certMpt = certMptAsset.url;
+const certWomen = certWomenAsset.url;
+const certObesity = certObesityAsset.url;
+const certAce = certAceAsset.url;
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -62,6 +75,7 @@ function Home() {
       <About2 />
       <Services />
       <WhyChoose />
+      <Certifications />
       <Programs />
       <Transformations2 />
       <VideoGallery />
@@ -89,7 +103,7 @@ function Nav() {
 
   const links = [
     ["About", "#about"], ["Services", "#services"], ["Programs", "#programs"],
-    ["Transformations", "#transformations"], ["Shop", "#store"], ["Contact", "#contact"],
+    ["Certifications", "#certifications"], ["Transformations", "#transformations"], ["Shop", "#store"], ["Contact", "#contact"],
   ];
 
   return (
@@ -1318,5 +1332,98 @@ function SectionLabel({ children }: { children: React.ReactNode }) {
       <span className="w-8 h-px bg-primary" />
       <span className="text-xs uppercase tracking-[0.25em] text-primary">{children}</span>
     </div>
+  );
+}
+
+/* ---------------- CERTIFICATIONS ---------------- */
+const certifications = [
+  { img: certNasm, title: "Physique & Bodybuilding Coach", issuer: "NASM (National Academy of Sports Medicine)", year: "2025" },
+  { img: certCpt, title: "Certified Personal Trainer (Level 5)", issuer: "Prehab 121 Academy", year: "2025" },
+  { img: certMpt, title: "Master Personal Trainer — Strength & Conditioning", issuer: "Prehab 121 Academy", year: "2025" },
+  { img: certWomen, title: "Women's Health Fitness Coach", issuer: "Prehab 121 Academy · ACSM Approved", year: "2025" },
+  { img: certObesity, title: "Obesity, Diabetes & Metabolic Training Specialist", issuer: "Prehab 121 Academy · ACSM Approved", year: "2025" },
+  { img: certAce, title: "Sport, Exercise & Nutrition — Community Physical Activity Leader", issuer: "ACE (American Council on Exercise)", year: "2025" },
+];
+
+function Certifications() {
+  const [active, setActive] = useState<number | null>(null);
+  return (
+    <section id="certifications" className="py-32 bg-surface relative">
+      <div className="mx-auto max-w-7xl px-6">
+        <motion.div
+          initial="hidden" whileInView="show" viewport={{ once: true, margin: "-100px" }}
+          variants={fadeUp} className="text-center max-w-2xl mx-auto mb-16"
+        >
+          <SectionLabel>Credentials</SectionLabel>
+          <h2 className="mt-4 font-display text-4xl md:text-5xl font-bold">
+            Certified for <span className="text-gradient-green">authenticity</span>
+          </h2>
+          <p className="mt-4 text-white/60">
+            Every plan is backed by internationally recognised certifications in training,
+            metabolic health and nutrition science.
+          </p>
+        </motion.div>
+
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {certifications.map((c, i) => (
+            <motion.button
+              key={c.title}
+              type="button"
+              onClick={() => setActive(i)}
+              initial={{ opacity: 0, y: 40 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-60px" }}
+              transition={{ duration: 0.6, delay: i * 0.08, ease: [0.16, 1, 0.3, 1] }}
+              className="group text-left rounded-3xl glass overflow-hidden hover-lift focus:outline-none focus:ring-2 focus:ring-primary/60"
+            >
+              <div className="relative aspect-[4/3] overflow-hidden bg-black">
+                <img
+                  src={c.img} alt={`${c.title} certificate awarded to Plawan Hota by ${c.issuer}`}
+                  loading="lazy"
+                  className="w-full h-full object-cover object-top opacity-90 transition-transform duration-700 group-hover:scale-105 group-hover:opacity-100"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/10 to-transparent" />
+                <span className="absolute top-4 left-4 flex items-center gap-1.5 text-[11px] uppercase tracking-widest px-3 py-1 rounded-full glass-strong text-primary">
+                  <Shield className="w-3 h-3" /> Verified
+                </span>
+              </div>
+              <div className="p-6">
+                <div className="text-xs uppercase tracking-widest text-primary">{String(i + 1).padStart(2, "0")} · {c.year}</div>
+                <h3 className="mt-2 font-display text-lg font-semibold leading-snug">{c.title}</h3>
+                <p className="mt-2 text-sm text-white/55">{c.issuer}</p>
+              </div>
+            </motion.button>
+          ))}
+        </div>
+      </div>
+
+      <AnimatePresence>
+        {active !== null && (
+          <motion.div
+            initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+            onClick={() => setActive(null)}
+            className="fixed inset-0 z-[60] bg-black/90 backdrop-blur-md flex items-center justify-center p-6"
+          >
+            <motion.div
+              initial={{ scale: 0.94, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} exit={{ scale: 0.96, opacity: 0 }}
+              transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
+              onClick={(e) => e.stopPropagation()}
+              className="relative max-w-3xl w-full rounded-3xl overflow-hidden glass-strong"
+            >
+              <img src={certifications[active].img} alt={certifications[active].title} className="w-full h-auto" />
+              <div className="p-5 flex items-start justify-between gap-4">
+                <div>
+                  <h3 className="font-display font-semibold">{certifications[active].title}</h3>
+                  <p className="text-sm text-white/55">{certifications[active].issuer}</p>
+                </div>
+                <button onClick={() => setActive(null)} aria-label="Close certificate" className="p-2 rounded-full glass hover:text-primary transition-colors">
+                  <X className="w-5 h-5" />
+                </button>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </section>
   );
 }
