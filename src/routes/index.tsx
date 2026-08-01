@@ -8,6 +8,7 @@ import {
   Instagram, Youtube, Facebook, Twitter,Sparkles, HeartPulse, Trophy
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { startCheckout } from "@/lib/razorpay";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -20,6 +21,27 @@ import transform3 from "@/assets/transform-3.jpg";
 import book1 from "@/assets/book-1.jpg";
 import book2 from "@/assets/book-2.jpg";
 import book3 from "@/assets/book-3.jpg";
+import c1Before from "@/assets/client-1-before.jpg";
+import c1After from "@/assets/client-1-after.jpg";
+import c2Before from "@/assets/client-2-before.jpg";
+import c2After from "@/assets/client-2-after.jpg";
+import c3Before from "@/assets/client-3-before.jpg";
+import c3After from "@/assets/client-3-after.jpg";
+import c4Before from "@/assets/client-4-before.jpg";
+import c4After from "@/assets/client-4-after.jpg";
+import certNasmAsset from "@/assets/cert-nasm.jpg.asset.json";
+import certCptAsset from "@/assets/cert-cpt.jpg.asset.json";
+import certMptAsset from "@/assets/cert-mpt.jpg.asset.json";
+import certWomenAsset from "@/assets/cert-women.jpg.asset.json";
+import certObesityAsset from "@/assets/cert-obesity.jpg.asset.json";
+import certAceAsset from "@/assets/cert-ace.jpg.asset.json";
+
+const certNasm = certNasmAsset.url;
+const certCpt = certCptAsset.url;
+const certMpt = certMptAsset.url;
+const certWomen = certWomenAsset.url;
+const certObesity = certObesityAsset.url;
+const certAce = certAceAsset.url;
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -53,6 +75,7 @@ function Home() {
       <About2 />
       <Services />
       <WhyChoose />
+      <Certifications />
       <Programs />
       <Transformations2 />
       <VideoGallery />
@@ -80,7 +103,7 @@ function Nav() {
 
   const links = [
     ["About", "#about"], ["Services", "#services"], ["Programs", "#programs"],
-    ["Transformations", "#transformations"], ["Shop", "#store"], ["Contact", "#contact"],
+    ["Certifications", "#certifications"], ["Transformations", "#transformations"], ["Shop", "#store"], ["Contact", "#contact"],
   ];
 
   return (
@@ -98,6 +121,7 @@ function Nav() {
           ))}
         </nav>
         <div className="hidden lg:flex items-center gap-3">
+          <a href="/purchases" className="text-sm text-white/70 hover:text-primary transition-colors">My Purchases</a>
           <Button variant="outline" size="sm" asChild><a href="#contact">Book Consultation</a></Button>
           <Button size="sm" asChild><a href="#programs">Start Now</a></Button>
         </div>
@@ -111,6 +135,7 @@ function Nav() {
             {links.map(([l, h]) => (
               <a key={l} href={h} onClick={() => setOpen(false)} className="text-white/70 hover:text-primary">{l}</a>
             ))}
+            <a href="/purchases" onClick={() => setOpen(false)} className="text-white/70 hover:text-primary">My Purchases</a>
             <Button size="sm" asChild><a href="#programs" onClick={() => setOpen(false)}>Start Now</a></Button>
           </div>
         </div>
@@ -489,9 +514,9 @@ function WhyChoose() {
 /* ---------------- PROGRAMS / PRICING ---------------- */
 function Programs() {
   const plans = [
-    { name: "Basic", price: "4,999", period: "/month", desc: "Perfect starting point.", features: ["Personalized diet plan", "Basic workout plan", "Bi-weekly check-ins", "Email support", "Recipe book access"], featured: false },
-    { name: "Premium", price: "8,999", period: "/month", desc: "Most popular choice.", features: ["Fully custom diet & training", "Weekly 1-on-1 video calls", "WhatsApp daily support", "Weekly plan adjustments", "All recipe books included", "Supplement guidance"], featured: true },
-    { name: "Elite", price: "14,999", period: "/month", desc: "Total transformation.", features: ["Everything in Premium", "24/7 priority WhatsApp", "Daily meal photo reviews", "Custom video workouts", "Body composition tracking", "Lifestyle & mindset coaching"], featured: false },
+    { slug: "program-basic", name: "Basic", price: "4,999", period: "/month", desc: "Perfect starting point.", features: ["Personalized diet plan", "Basic workout plan", "Bi-weekly check-ins", "Email support", "Recipe book access"], featured: false },
+    { slug: "program-premium", name: "Premium", price: "8,999", period: "/month", desc: "Most popular choice.", features: ["Fully custom diet & training", "Weekly 1-on-1 video calls", "WhatsApp daily support", "Weekly plan adjustments", "All recipe books included", "Supplement guidance"], featured: true },
+    { slug: "program-elite", name: "Elite", price: "14,999", period: "/month", desc: "Total transformation.", features: ["Everything in Premium", "24/7 priority WhatsApp", "Daily meal photo reviews", "Custom video workouts", "Body composition tracking", "Lifestyle & mindset coaching"], featured: false },
   ];
   return (
     <section id="programs" className="py-32 bg-surface relative">
@@ -526,7 +551,7 @@ function Programs() {
                   </li>
                 ))}
               </ul>
-              <Button variant={p.featured ? "hero" : "outline"} size="lg" className="mt-8 w-full">Join Now</Button>
+              <Button variant={p.featured ? "hero" : "outline"} size="lg" className="mt-8 w-full" onClick={() => startCheckout(p.slug)}>Join Now</Button>
             </div>
           ))}
         </div>
@@ -700,8 +725,11 @@ function Transformations() {
 type Point = { x: number; y: number; label: string };
 type TCard = {
   initials: string;
-  img:any;
-  gradient: string;
+  name: string;
+  category: string;
+  before: string;
+  after: string;
+  duration: string;
   metric: string;
   unit: string;
   metricLabel: string;
@@ -712,12 +740,15 @@ type TCard = {
 const transformations: TCard[] = [
   {
     initials: "RM",
-    img: transform1,
-    gradient: "from-neutral-700 via-neutral-800 to-black",
-    metric: "120",
-    unit: "mmHg",
-    metricLabel: "Blood pressure",
-    caption: "From 118 kg to 92 kg and 15% body fat, coaching gave me my life back.",
+    name: "Rohit M.",
+    category: "Fat Loss",
+    before: c1Before,
+    after: c1After,
+    duration: "7 months",
+    metric: "26",
+    unit: "kg",
+    metricLabel: "Weight lost",
+    caption: "From 118 kg to 92 kg and 15% body fat — coaching gave me my life back.",
     points: [
       { x: 12, y: 20, label: "118 kg" },
       { x: 50, y: 55, label: "100 kg" },
@@ -726,44 +757,53 @@ const transformations: TCard[] = [
   },
   {
     initials: "PS",
-    img: transform2,
-    gradient: "from-emerald-900 via-neutral-800 to-black",
-    metric: "85",
-    unit: "mg/dL",
-    metricLabel: "Diabetes",
-    caption: "Reversed diabetes, lost 17 kg, and gained energy, thanks to Indian Diet Doc.",
+    name: "Priya S.",
+    category: "Female Fat Loss",
+    before: c2Before,
+    after: c2After,
+    duration: "9 months",
+    metric: "18",
+    unit: "kg",
+    metricLabel: "Weight lost",
+    caption: "PCOS under control, 18 kg down and finally energetic all day.",
     points: [
-      { x: 12, y: 55, label: "200 mg/dl" },
-      { x: 50, y: 25, label: "220 mg/dl" },
-      { x: 88, y: 82, label: "85 mg/dl" },
+      { x: 12, y: 18, label: "78 kg" },
+      { x: 50, y: 52, label: "68 kg" },
+      { x: 88, y: 84, label: "60 kg" },
     ],
   },
   {
     initials: "AK",
-    img: transform3,
-    gradient: "from-amber-900 via-neutral-800 to-black",
-    metric: "17",
+    name: "Ankit K.",
+    category: "Body Recomposition",
+    before: c3Before,
+    after: c3After,
+    duration: "11 months",
+    metric: "24",
     unit: "kg",
-    metricLabel: "Diabetes reversed",
-    caption: "I reversed diabetes, lost 17 kg, and no longer need medication — thanks to Plawan.",
+    metricLabel: "Weight lost",
+    caption: "I reversed pre-diabetes, lost 24 kg and built real strength with Plawan.",
     points: [
-      { x: 12, y: 22, label: "89 kg" },
-      { x: 50, y: 58, label: "80 kg" },
+      { x: 12, y: 22, label: "98 kg" },
+      { x: 50, y: 58, label: "85 kg" },
       { x: 88, y: 88, label: "74 kg" },
     ],
   },
   {
-    initials: "ML",
-    img: transform1,
-    gradient: "from-rose-900 via-neutral-800 to-black",
-    metric: "35",
+    initials: "SD",
+    name: "Sanjay D.",
+    category: "Teen Fat Loss",
+    before: c4Before,
+    after: c4After,
+    duration: "8 months",
+    metric: "31",
     unit: "kg",
     metricLabel: "Weight lost",
-    caption: "From PCOD and obesity to inspiring others, going from 92.5 kg to 57 kg.",
+    caption: "From bullied at school to the fittest in class — 31 kg gone for good.",
     points: [
-      { x: 12, y: 20, label: "94 kg" },
-      { x: 50, y: 55, label: "87 kg" },
-      { x: 88, y: 85, label: "59 kg" },
+      { x: 12, y: 16, label: "104 kg" },
+      { x: 50, y: 50, label: "88 kg" },
+      { x: 88, y: 86, label: "73 kg" },
     ],
   },
 ];
@@ -775,29 +815,45 @@ function TransformationCard({ t }: { t: TCard }) {
     <div
       onMouseEnter={() => setHover(true)}
       onMouseLeave={() => setHover(false)}
-      className="group relative rounded-2xl overflow-hidden aspect-[3/4] border border-border cursor-pointer"
+      className="group relative rounded-2xl overflow-hidden aspect-[3/4] border border-border cursor-pointer bg-black"
     >
-      {/* portrait background */}
-      {/* <div
-        className={`absolute inset-0 bg-gradient-to-b ${t.gradient} flex items-center justify-center text-7xl font-bold text-white/10 transition-all duration-500 ${
-          hover ? "blur-xl scale-110" : "blur-0 scale-100"
-        }`}
-      >
-        {t.initials}
+      {/* before / after split */}
+      <div className="absolute inset-0 flex">
+        <div className="relative w-1/2 overflow-hidden">
+          <img
+            src={t.before}
+            alt={`${t.name} before transformation`}
+            className="absolute inset-0 w-full h-full object-cover object-top grayscale transition-all duration-[900ms] ease-out group-hover:scale-105 group-hover:blur-sm group-hover:opacity-20"
+            loading="lazy"
+            width={900}
+            height={1200}
+          />
+          <span
+            className={`absolute bottom-24 left-2 z-10 rounded-full bg-black/60 backdrop-blur px-2.5 py-1 text-[10px] tracking-[0.2em] text-white/70 transition-opacity duration-500 ${hover ? "opacity-0" : "opacity-100"}`}
+          >
+            BEFORE
+          </span>
+        </div>
+        <div className="relative w-1/2 overflow-hidden">
+          <img
+            src={t.after}
+            alt={`${t.name} after transformation`}
+            className="absolute inset-0 w-full h-full object-cover object-top transition-all duration-[900ms] ease-out group-hover:scale-105 group-hover:blur-sm group-hover:opacity-20"
+            loading="lazy"
+            width={900}
+            height={1200}
+          />
+          <span
+            className={`absolute bottom-24 right-2 z-10 rounded-full bg-primary/90 px-2.5 py-1 text-[10px] tracking-[0.2em] text-primary-foreground transition-opacity duration-500 ${hover ? "opacity-0" : "opacity-100"}`}
+          >
+            AFTER
+          </span>
+        </div>
+        {/* divider */}
+        <div
+          className={`pointer-events-none absolute inset-y-0 left-1/2 w-px -translate-x-1/2 bg-white/40 transition-opacity duration-500 ${hover ? "opacity-0" : "opacity-100"}`}
+        />
       </div>
-      <div
-        className={`absolute inset-0 transition-opacity duration-500 ${
-          hover ? "opacity-100 bg-black/40" : "opacity-0"
-        }`}
-      /> */}
-      <img
-                src={t.img}
-                alt={`${t.initials} transformation`}
-                className="absolute inset-0 w-full h-full object-cover transition-all duration-[900ms] ease-out group-hover:scale-110 group-hover:blur-sm group-hover:opacity-20"
-                loading="lazy"
-                width={1200}
-                height={1600}
-              />
 
       {/* top-left metric */}
       <div className="absolute top-4 left-4 z-10">
@@ -811,9 +867,15 @@ function TransformationCard({ t }: { t: TCard }) {
         </div>
       </div>
 
+      {/* top-right category */}
+      <div className="absolute top-4 right-4 z-10 text-right">
+        <div className="text-[10px] uppercase tracking-[0.18em] text-primary">{t.category}</div>
+        <div className="text-[11px] text-white/60">{t.duration}</div>
+      </div>
+
       {/* graph overlay */}
       <div
-        className={`absolute inset-x-6 top-10 bottom-28 transition-all duration-500 ${
+        className={`absolute inset-x-6 top-16 bottom-28 transition-all duration-500 ${
           hover ? "opacity-100 translate-y-0" : "opacity-0 translate-y-2"
         }`}
       >
@@ -874,8 +936,9 @@ function TransformationCard({ t }: { t: TCard }) {
       </div>
 
       {/* caption */}
-      <div className="absolute inset-x-0 bottom-0 p-4 text-center text-sm text-white/90 bg-gradient-to-t from-black/80 to-transparent pt-10">
-        {t.caption}
+      <div className="absolute inset-x-0 bottom-0 p-4 text-center bg-gradient-to-t from-black via-black/80 to-transparent pt-12">
+        <div className="text-xs uppercase tracking-[0.18em] text-white/50 mb-1">{t.name}</div>
+        <div className="text-sm text-white/90">{t.caption}</div>
       </div>
     </div>
   );
@@ -948,10 +1011,10 @@ function VideoGallery() {
 /* ---------------- STORE ---------------- */
 function Store() {
   const books = [
-    { img: book1, title: "Healthy Recipe Book", desc: "80+ everyday Indian recipes for fat loss.", price: "499" },
-    { img: book2, title: "High Protein Recipes", desc: "Vegetarian & non-veg high-protein Indian meals.", price: "599" },
-    { img: book3, title: "Indian Meal Prep Guide", desc: "Weekly meal prep made simple for Indian kitchens.", price: "699" },
-    { img: book1, title: "Diabetic Friendly Recipes", desc: "Low-GI Indian recipes for blood sugar balance.", price: "799" },
+    { slug: "healthy-recipe-book", img: book1, title: "Healthy Recipe Book", desc: "80+ everyday Indian recipes for fat loss.", price: "499" },
+    { slug: "high-protein-recipes", img: book2, title: "High Protein Recipes", desc: "Vegetarian & non-veg high-protein Indian meals.", price: "599" },
+    { slug: "indian-meal-prep-guide", img: book3, title: "Indian Meal Prep Guide", desc: "Weekly meal prep made simple for Indian kitchens.", price: "699" },
+    { slug: "diabetic-friendly-recipes", img: book1, title: "Diabetic Friendly Recipes", desc: "Low-GI Indian recipes for blood sugar balance.", price: "799" },
   ];
   return (
     <section id="store" className="py-32">
@@ -975,7 +1038,7 @@ function Store() {
                 <p className="text-sm text-white/50 mt-2 line-clamp-2">{b.desc}</p>
                 <div className="mt-4 flex items-center justify-between">
                   <div className="text-xl font-bold">₹{b.price}</div>
-                  <Button size="sm">Buy Now</Button>
+                  <Button size="sm" onClick={() => startCheckout(b.slug)}>Buy Now</Button>
                 </div>
               </div>
             </div>
@@ -1269,5 +1332,98 @@ function SectionLabel({ children }: { children: React.ReactNode }) {
       <span className="w-8 h-px bg-primary" />
       <span className="text-xs uppercase tracking-[0.25em] text-primary">{children}</span>
     </div>
+  );
+}
+
+/* ---------------- CERTIFICATIONS ---------------- */
+const certifications = [
+  { img: certNasm, title: "Physique & Bodybuilding Coach", issuer: "NASM (National Academy of Sports Medicine)", year: "2025" },
+  { img: certCpt, title: "Certified Personal Trainer (Level 5)", issuer: "Prehab 121 Academy", year: "2025" },
+  { img: certMpt, title: "Master Personal Trainer — Strength & Conditioning", issuer: "Prehab 121 Academy", year: "2025" },
+  { img: certWomen, title: "Women's Health Fitness Coach", issuer: "Prehab 121 Academy · ACSM Approved", year: "2025" },
+  { img: certObesity, title: "Obesity, Diabetes & Metabolic Training Specialist", issuer: "Prehab 121 Academy · ACSM Approved", year: "2025" },
+  { img: certAce, title: "Sport, Exercise & Nutrition — Community Physical Activity Leader", issuer: "ACE (American Council on Exercise)", year: "2025" },
+];
+
+function Certifications() {
+  const [active, setActive] = useState<number | null>(null);
+  return (
+    <section id="certifications" className="py-32 bg-surface relative">
+      <div className="mx-auto max-w-7xl px-6">
+        <motion.div
+          initial="hidden" whileInView="show" viewport={{ once: true, margin: "-100px" }}
+          variants={fadeUp} className="text-center max-w-2xl mx-auto mb-16"
+        >
+          <SectionLabel>Credentials</SectionLabel>
+          <h2 className="mt-4 font-display text-4xl md:text-5xl font-bold">
+            Certified for <span className="text-gradient-green">authenticity</span>
+          </h2>
+          <p className="mt-4 text-white/60">
+            Every plan is backed by internationally recognised certifications in training,
+            metabolic health and nutrition science.
+          </p>
+        </motion.div>
+
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {certifications.map((c, i) => (
+            <motion.button
+              key={c.title}
+              type="button"
+              onClick={() => setActive(i)}
+              initial={{ opacity: 0, y: 40 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-60px" }}
+              transition={{ duration: 0.6, delay: i * 0.08, ease: [0.16, 1, 0.3, 1] }}
+              className="group text-left rounded-3xl glass overflow-hidden hover-lift focus:outline-none focus:ring-2 focus:ring-primary/60"
+            >
+              <div className="relative aspect-[4/3] overflow-hidden bg-black">
+                <img
+                  src={c.img} alt={`${c.title} certificate awarded to Plawan Hota by ${c.issuer}`}
+                  loading="lazy"
+                  className="w-full h-full object-cover object-top opacity-90 transition-transform duration-700 group-hover:scale-105 group-hover:opacity-100"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/10 to-transparent" />
+                <span className="absolute top-4 left-4 flex items-center gap-1.5 text-[11px] uppercase tracking-widest px-3 py-1 rounded-full glass-strong text-primary">
+                  <Shield className="w-3 h-3" /> Verified
+                </span>
+              </div>
+              <div className="p-6">
+                <div className="text-xs uppercase tracking-widest text-primary">{String(i + 1).padStart(2, "0")} · {c.year}</div>
+                <h3 className="mt-2 font-display text-lg font-semibold leading-snug">{c.title}</h3>
+                <p className="mt-2 text-sm text-white/55">{c.issuer}</p>
+              </div>
+            </motion.button>
+          ))}
+        </div>
+      </div>
+
+      <AnimatePresence>
+        {active !== null && (
+          <motion.div
+            initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+            onClick={() => setActive(null)}
+            className="fixed inset-0 z-[60] bg-black/90 backdrop-blur-md flex items-center justify-center p-6"
+          >
+            <motion.div
+              initial={{ scale: 0.94, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} exit={{ scale: 0.96, opacity: 0 }}
+              transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
+              onClick={(e) => e.stopPropagation()}
+              className="relative max-w-3xl w-full rounded-3xl overflow-hidden glass-strong"
+            >
+              <img src={certifications[active].img} alt={certifications[active].title} className="w-full h-auto" />
+              <div className="p-5 flex items-start justify-between gap-4">
+                <div>
+                  <h3 className="font-display font-semibold">{certifications[active].title}</h3>
+                  <p className="text-sm text-white/55">{certifications[active].issuer}</p>
+                </div>
+                <button onClick={() => setActive(null)} aria-label="Close certificate" className="p-2 rounded-full glass hover:text-primary transition-colors">
+                  <X className="w-5 h-5" />
+                </button>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </section>
   );
 }
