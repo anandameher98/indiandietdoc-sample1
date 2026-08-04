@@ -166,8 +166,8 @@ function Hero() {
 
           <div className="mt-14 grid grid-cols-2 sm:grid-cols-4 gap-6 max-w-xl">
             {[
-              ["1000+", "Clients"],
-              ["500+", "Transformations"],
+              ["500+", "Clients"],
+              ["150+", "Transformations"],
               ["10+", "Years Exp"],
               ["4.9★", "Rating"],
             ].map(([v, l]) => (
