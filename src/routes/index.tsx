@@ -20,6 +20,14 @@ import transform3 from "@/assets/transform-3.jpg";
 import book1 from "@/assets/book-1.jpg";
 import book2 from "@/assets/book-2.jpg";
 import book3 from "@/assets/book-3.jpg";
+import c1Before from "@/assets/client-1-before.jpg";
+import c1After from "@/assets/client-1-after.jpg";
+import c2Before from "@/assets/client-2-before.jpg";
+import c2After from "@/assets/client-2-after.jpg";
+import c3Before from "@/assets/client-3-before.jpg";
+import c3After from "@/assets/client-3-after.jpg";
+import c4Before from "@/assets/client-4-before.jpg";
+import c4After from "@/assets/client-4-after.jpg";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -158,8 +166,8 @@ function Hero() {
 
           <div className="mt-14 grid grid-cols-2 sm:grid-cols-4 gap-6 max-w-xl">
             {[
-              ["1000+", "Clients"],
-              ["500+", "Transformations"],
+              ["500+", "Clients"],
+              ["150+", "Transformations"],
               ["10+", "Years Exp"],
               ["4.9★", "Rating"],
             ].map(([v, l]) => (
@@ -700,8 +708,11 @@ function Transformations() {
 type Point = { x: number; y: number; label: string };
 type TCard = {
   initials: string;
-  img:any;
-  gradient: string;
+  name: string;
+  category: string;
+  before: string;
+  after: string;
+  duration: string;
   metric: string;
   unit: string;
   metricLabel: string;
@@ -712,12 +723,15 @@ type TCard = {
 const transformations: TCard[] = [
   {
     initials: "RM",
-    img: transform1,
-    gradient: "from-neutral-700 via-neutral-800 to-black",
-    metric: "120",
-    unit: "mmHg",
-    metricLabel: "Blood pressure",
-    caption: "From 118 kg to 92 kg and 15% body fat, coaching gave me my life back.",
+    name: "Rohit M.",
+    category: "Fat Loss",
+    before: c1Before,
+    after: c1After,
+    duration: "7 months",
+    metric: "26",
+    unit: "kg",
+    metricLabel: "Weight lost",
+    caption: "From 118 kg to 92 kg and 15% body fat — coaching gave me my life back.",
     points: [
       { x: 12, y: 20, label: "118 kg" },
       { x: 50, y: 55, label: "100 kg" },
@@ -726,44 +740,53 @@ const transformations: TCard[] = [
   },
   {
     initials: "PS",
-    img: transform2,
-    gradient: "from-emerald-900 via-neutral-800 to-black",
-    metric: "85",
-    unit: "mg/dL",
-    metricLabel: "Diabetes",
-    caption: "Reversed diabetes, lost 17 kg, and gained energy, thanks to Indian Diet Doc.",
+    name: "Priya S.",
+    category: "Female Fat Loss",
+    before: c2Before,
+    after: c2After,
+    duration: "9 months",
+    metric: "18",
+    unit: "kg",
+    metricLabel: "Weight lost",
+    caption: "PCOS under control, 18 kg down and finally energetic all day.",
     points: [
-      { x: 12, y: 55, label: "200 mg/dl" },
-      { x: 50, y: 25, label: "220 mg/dl" },
-      { x: 88, y: 82, label: "85 mg/dl" },
+      { x: 12, y: 18, label: "78 kg" },
+      { x: 50, y: 52, label: "68 kg" },
+      { x: 88, y: 84, label: "60 kg" },
     ],
   },
   {
     initials: "AK",
-    img: transform3,
-    gradient: "from-amber-900 via-neutral-800 to-black",
-    metric: "17",
+    name: "Ankit K.",
+    category: "Body Recomposition",
+    before: c3Before,
+    after: c3After,
+    duration: "11 months",
+    metric: "24",
     unit: "kg",
-    metricLabel: "Diabetes reversed",
-    caption: "I reversed diabetes, lost 17 kg, and no longer need medication — thanks to Plawan.",
+    metricLabel: "Weight lost",
+    caption: "I reversed pre-diabetes, lost 24 kg and built real strength with Plawan.",
     points: [
-      { x: 12, y: 22, label: "89 kg" },
-      { x: 50, y: 58, label: "80 kg" },
+      { x: 12, y: 22, label: "98 kg" },
+      { x: 50, y: 58, label: "85 kg" },
       { x: 88, y: 88, label: "74 kg" },
     ],
   },
   {
-    initials: "ML",
-    img: transform1,
-    gradient: "from-rose-900 via-neutral-800 to-black",
-    metric: "35",
+    initials: "SD",
+    name: "Sanjay D.",
+    category: "Teen Fat Loss",
+    before: c4Before,
+    after: c4After,
+    duration: "8 months",
+    metric: "31",
     unit: "kg",
     metricLabel: "Weight lost",
-    caption: "From PCOD and obesity to inspiring others, going from 92.5 kg to 57 kg.",
+    caption: "From bullied at school to the fittest in class — 31 kg gone for good.",
     points: [
-      { x: 12, y: 20, label: "94 kg" },
-      { x: 50, y: 55, label: "87 kg" },
-      { x: 88, y: 85, label: "59 kg" },
+      { x: 12, y: 16, label: "104 kg" },
+      { x: 50, y: 50, label: "88 kg" },
+      { x: 88, y: 86, label: "73 kg" },
     ],
   },
 ];
@@ -775,29 +798,45 @@ function TransformationCard({ t }: { t: TCard }) {
     <div
       onMouseEnter={() => setHover(true)}
       onMouseLeave={() => setHover(false)}
-      className="group relative rounded-2xl overflow-hidden aspect-[3/4] border border-border cursor-pointer"
+      className="group relative rounded-2xl overflow-hidden aspect-[3/4] border border-border cursor-pointer bg-black"
     >
-      {/* portrait background */}
-      {/* <div
-        className={`absolute inset-0 bg-gradient-to-b ${t.gradient} flex items-center justify-center text-7xl font-bold text-white/10 transition-all duration-500 ${
-          hover ? "blur-xl scale-110" : "blur-0 scale-100"
-        }`}
-      >
-        {t.initials}
+      {/* before / after split */}
+      <div className="absolute inset-0 flex">
+        <div className="relative w-1/2 overflow-hidden">
+          <img
+            src={t.before}
+            alt={`${t.name} before transformation`}
+            className="absolute inset-0 w-full h-full object-cover object-top grayscale transition-all duration-[900ms] ease-out group-hover:scale-105 group-hover:blur-sm group-hover:opacity-20"
+            loading="lazy"
+            width={900}
+            height={1200}
+          />
+          <span
+            className={`absolute bottom-24 left-2 z-10 rounded-full bg-black/60 backdrop-blur px-2.5 py-1 text-[10px] tracking-[0.2em] text-white/70 transition-opacity duration-500 ${hover ? "opacity-0" : "opacity-100"}`}
+          >
+            BEFORE
+          </span>
+        </div>
+        <div className="relative w-1/2 overflow-hidden">
+          <img
+            src={t.after}
+            alt={`${t.name} after transformation`}
+            className="absolute inset-0 w-full h-full object-cover object-top transition-all duration-[900ms] ease-out group-hover:scale-105 group-hover:blur-sm group-hover:opacity-20"
+            loading="lazy"
+            width={900}
+            height={1200}
+          />
+          <span
+            className={`absolute bottom-24 right-2 z-10 rounded-full bg-primary/90 px-2.5 py-1 text-[10px] tracking-[0.2em] text-primary-foreground transition-opacity duration-500 ${hover ? "opacity-0" : "opacity-100"}`}
+          >
+            AFTER
+          </span>
+        </div>
+        {/* divider */}
+        <div
+          className={`pointer-events-none absolute inset-y-0 left-1/2 w-px -translate-x-1/2 bg-white/40 transition-opacity duration-500 ${hover ? "opacity-0" : "opacity-100"}`}
+        />
       </div>
-      <div
-        className={`absolute inset-0 transition-opacity duration-500 ${
-          hover ? "opacity-100 bg-black/40" : "opacity-0"
-        }`}
-      /> */}
-      <img
-                src={t.img}
-                alt={`${t.initials} transformation`}
-                className="absolute inset-0 w-full h-full object-cover transition-all duration-[900ms] ease-out group-hover:scale-110 group-hover:blur-sm group-hover:opacity-20"
-                loading="lazy"
-                width={1200}
-                height={1600}
-              />
 
       {/* top-left metric */}
       <div className="absolute top-4 left-4 z-10">
@@ -811,9 +850,15 @@ function TransformationCard({ t }: { t: TCard }) {
         </div>
       </div>
 
+      {/* top-right category */}
+      <div className="absolute top-4 right-4 z-10 text-right">
+        <div className="text-[10px] uppercase tracking-[0.18em] text-primary">{t.category}</div>
+        <div className="text-[11px] text-white/60">{t.duration}</div>
+      </div>
+
       {/* graph overlay */}
       <div
-        className={`absolute inset-x-6 top-10 bottom-28 transition-all duration-500 ${
+        className={`absolute inset-x-6 top-16 bottom-28 transition-all duration-500 ${
           hover ? "opacity-100 translate-y-0" : "opacity-0 translate-y-2"
         }`}
       >
@@ -874,8 +919,9 @@ function TransformationCard({ t }: { t: TCard }) {
       </div>
 
       {/* caption */}
-      <div className="absolute inset-x-0 bottom-0 p-4 text-center text-sm text-white/90 bg-gradient-to-t from-black/80 to-transparent pt-10">
-        {t.caption}
+      <div className="absolute inset-x-0 bottom-0 p-4 text-center bg-gradient-to-t from-black via-black/80 to-transparent pt-12">
+        <div className="text-xs uppercase tracking-[0.18em] text-white/50 mb-1">{t.name}</div>
+        <div className="text-sm text-white/90">{t.caption}</div>
       </div>
     </div>
   );
