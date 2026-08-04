@@ -8,6 +8,7 @@ import {
   Instagram, Youtube, Facebook, Twitter,Sparkles, HeartPulse, Trophy
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { startCheckout } from "@/lib/razorpay";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -28,6 +29,13 @@ import c3Before from "@/assets/client-3-before.jpg";
 import c3After from "@/assets/client-3-after.jpg";
 import c4Before from "@/assets/client-4-before.jpg";
 import c4After from "@/assets/client-4-after.jpg";
+import certNasm from "@/assets/cert-nasm.jpg";
+import certCpt from "@/assets/cert-cpt.jpg";
+import certMpt from "@/assets/cert-mpt.jpg";
+import certWomen from "@/assets/cert-women.jpg";
+import certObesity from "@/assets/cert-obesity.jpg";
+import certAce from "@/assets/cert-ace.jpg";
+
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -61,6 +69,7 @@ function Home() {
       <About2 />
       <Services />
       <WhyChoose />
+      <Certifications />
       <Programs />
       <Transformations2 />
       <VideoGallery />
@@ -88,7 +97,7 @@ function Nav() {
 
   const links = [
     ["About", "#about"], ["Services", "#services"], ["Programs", "#programs"],
-    ["Transformations", "#transformations"], ["Shop", "#store"], ["Contact", "#contact"],
+    ["Certifications", "#certifications"], ["Transformations", "#transformations"], ["Shop", "#store"], ["Contact", "#contact"],
   ];
 
   return (
@@ -106,6 +115,7 @@ function Nav() {
           ))}
         </nav>
         <div className="hidden lg:flex items-center gap-3">
+          <a href="/purchases" className="text-sm text-white/70 hover:text-primary transition-colors">My Purchases</a>
           <Button variant="outline" size="sm" asChild><a href="#contact">Book Consultation</a></Button>
           <Button size="sm" asChild><a href="#programs">Start Now</a></Button>
         </div>
@@ -119,6 +129,7 @@ function Nav() {
             {links.map(([l, h]) => (
               <a key={l} href={h} onClick={() => setOpen(false)} className="text-white/70 hover:text-primary">{l}</a>
             ))}
+            <a href="/purchases" onClick={() => setOpen(false)} className="text-white/70 hover:text-primary">My Purchases</a>
             <Button size="sm" asChild><a href="#programs" onClick={() => setOpen(false)}>Start Now</a></Button>
           </div>
         </div>
@@ -166,8 +177,8 @@ function Hero() {
 
           <div className="mt-14 grid grid-cols-2 sm:grid-cols-4 gap-6 max-w-xl">
             {[
-              ["500+", "Clients"],
-              ["150+", "Transformations"],
+              ["1000+", "Clients"],
+              ["500+", "Transformations"],
               ["10+", "Years Exp"],
               ["4.9★", "Rating"],
             ].map(([v, l]) => (
@@ -497,9 +508,9 @@ function WhyChoose() {
 /* ---------------- PROGRAMS / PRICING ---------------- */
 function Programs() {
   const plans = [
-    { name: "Basic", price: "4,999", period: "/month", desc: "Perfect starting point.", features: ["Personalized diet plan", "Basic workout plan", "Bi-weekly check-ins", "Email support", "Recipe book access"], featured: false },
-    { name: "Premium", price: "8,999", period: "/month", desc: "Most popular choice.", features: ["Fully custom diet & training", "Weekly 1-on-1 video calls", "WhatsApp daily support", "Weekly plan adjustments", "All recipe books included", "Supplement guidance"], featured: true },
-    { name: "Elite", price: "14,999", period: "/month", desc: "Total transformation.", features: ["Everything in Premium", "24/7 priority WhatsApp", "Daily meal photo reviews", "Custom video workouts", "Body composition tracking", "Lifestyle & mindset coaching"], featured: false },
+    { slug: "program-basic", name: "Basic", price: "4,999", period: "/month", desc: "Perfect starting point.", features: ["Personalized diet plan", "Basic workout plan", "Bi-weekly check-ins", "Email support", "Recipe book access"], featured: false },
+    { slug: "program-premium", name: "Premium", price: "8,999", period: "/month", desc: "Most popular choice.", features: ["Fully custom diet & training", "Weekly 1-on-1 video calls", "WhatsApp daily support", "Weekly plan adjustments", "All recipe books included", "Supplement guidance"], featured: true },
+    { slug: "program-elite", name: "Elite", price: "14,999", period: "/month", desc: "Total transformation.", features: ["Everything in Premium", "24/7 priority WhatsApp", "Daily meal photo reviews", "Custom video workouts", "Body composition tracking", "Lifestyle & mindset coaching"], featured: false },
   ];
   return (
     <section id="programs" className="py-32 bg-surface relative">
@@ -534,7 +545,7 @@ function Programs() {
                   </li>
                 ))}
               </ul>
-              <Button variant={p.featured ? "hero" : "outline"} size="lg" className="mt-8 w-full">Join Now</Button>
+              <Button variant={p.featured ? "hero" : "outline"} size="lg" className="mt-8 w-full" onClick={() => startCheckout(p.slug)}>Join Now</Button>
             </div>
           ))}
         </div>
@@ -994,10 +1005,10 @@ function VideoGallery() {
 /* ---------------- STORE ---------------- */
 function Store() {
   const books = [
-    { img: book1, title: "Healthy Recipe Book", desc: "80+ everyday Indian recipes for fat loss.", price: "499" },
-    { img: book2, title: "High Protein Recipes", desc: "Vegetarian & non-veg high-protein Indian meals.", price: "599" },
-    { img: book3, title: "Indian Meal Prep Guide", desc: "Weekly meal prep made simple for Indian kitchens.", price: "699" },
-    { img: book1, title: "Diabetic Friendly Recipes", desc: "Low-GI Indian recipes for blood sugar balance.", price: "799" },
+    { slug: "healthy-recipe-book", img: book1, title: "Healthy Recipe Book", desc: "80+ everyday Indian recipes for fat loss.", price: "499" },
+    { slug: "high-protein-recipes", img: book2, title: "High Protein Recipes", desc: "Vegetarian & non-veg high-protein Indian meals.", price: "599" },
+    { slug: "indian-meal-prep-guide", img: book3, title: "Indian Meal Prep Guide", desc: "Weekly meal prep made simple for Indian kitchens.", price: "699" },
+    { slug: "diabetic-friendly-recipes", img: book1, title: "Diabetic Friendly Recipes", desc: "Low-GI Indian recipes for blood sugar balance.", price: "799" },
   ];
   return (
     <section id="store" className="py-32">
@@ -1021,7 +1032,7 @@ function Store() {
                 <p className="text-sm text-white/50 mt-2 line-clamp-2">{b.desc}</p>
                 <div className="mt-4 flex items-center justify-between">
                   <div className="text-xl font-bold">₹{b.price}</div>
-                  <Button size="sm">Buy Now</Button>
+                  <Button size="sm" onClick={() => startCheckout(b.slug)}>Buy Now</Button>
                 </div>
               </div>
             </div>
@@ -1315,5 +1326,98 @@ function SectionLabel({ children }: { children: React.ReactNode }) {
       <span className="w-8 h-px bg-primary" />
       <span className="text-xs uppercase tracking-[0.25em] text-primary">{children}</span>
     </div>
+  );
+}
+
+/* ---------------- CERTIFICATIONS ---------------- */
+const certifications = [
+  { img: certNasm, title: "Physique & Bodybuilding Coach", issuer: "NASM (National Academy of Sports Medicine)", year: "2025" },
+  { img: certCpt, title: "Certified Personal Trainer (Level 5)", issuer: "Prehab 121 Academy", year: "2025" },
+  { img: certMpt, title: "Master Personal Trainer — Strength & Conditioning", issuer: "Prehab 121 Academy", year: "2025" },
+  { img: certWomen, title: "Women's Health Fitness Coach", issuer: "Prehab 121 Academy · ACSM Approved", year: "2025" },
+  { img: certObesity, title: "Obesity, Diabetes & Metabolic Training Specialist", issuer: "Prehab 121 Academy · ACSM Approved", year: "2025" },
+  { img: certAce, title: "Sport, Exercise & Nutrition — Community Physical Activity Leader", issuer: "ACE (American Council on Exercise)", year: "2025" },
+];
+
+function Certifications() {
+  const [active, setActive] = useState<number | null>(null);
+  return (
+    <section id="certifications" className="py-32 bg-surface relative">
+      <div className="mx-auto max-w-7xl px-6">
+        <motion.div
+          initial="hidden" whileInView="show" viewport={{ once: true, margin: "-100px" }}
+          variants={fadeUp} className="text-center max-w-2xl mx-auto mb-16"
+        >
+          <SectionLabel>Credentials</SectionLabel>
+          <h2 className="mt-4 font-display text-4xl md:text-5xl font-bold">
+            Certified for <span className="text-gradient-green">authenticity</span>
+          </h2>
+          <p className="mt-4 text-white/60">
+            Every plan is backed by internationally recognised certifications in training,
+            metabolic health and nutrition science.
+          </p>
+        </motion.div>
+
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {certifications.map((c, i) => (
+            <motion.button
+              key={c.title}
+              type="button"
+              onClick={() => setActive(i)}
+              initial={{ opacity: 0, y: 40 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-60px" }}
+              transition={{ duration: 0.6, delay: i * 0.08, ease: [0.16, 1, 0.3, 1] }}
+              className="group text-left rounded-3xl glass overflow-hidden hover-lift focus:outline-none focus:ring-2 focus:ring-primary/60"
+            >
+              <div className="relative aspect-[4/3] overflow-hidden bg-black">
+                <img
+                  src={c.img} alt={`${c.title} certificate awarded to Plawan Hota by ${c.issuer}`}
+                  loading="lazy"
+                  className="w-full h-full object-cover object-top opacity-90 transition-transform duration-700 group-hover:scale-105 group-hover:opacity-100"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/10 to-transparent" />
+                <span className="absolute top-4 left-4 flex items-center gap-1.5 text-[11px] uppercase tracking-widest px-3 py-1 rounded-full glass-strong text-primary">
+                  <Shield className="w-3 h-3" /> Verified
+                </span>
+              </div>
+              <div className="p-6">
+                <div className="text-xs uppercase tracking-widest text-primary">{String(i + 1).padStart(2, "0")} · {c.year}</div>
+                <h3 className="mt-2 font-display text-lg font-semibold leading-snug">{c.title}</h3>
+                <p className="mt-2 text-sm text-white/55">{c.issuer}</p>
+              </div>
+            </motion.button>
+          ))}
+        </div>
+      </div>
+
+      <AnimatePresence>
+        {active !== null && (
+          <motion.div
+            initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+            onClick={() => setActive(null)}
+            className="fixed inset-0 z-[60] bg-black/90 backdrop-blur-md flex items-center justify-center p-6"
+          >
+            <motion.div
+              initial={{ scale: 0.94, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} exit={{ scale: 0.96, opacity: 0 }}
+              transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
+              onClick={(e) => e.stopPropagation()}
+              className="relative max-w-3xl w-full rounded-3xl overflow-hidden glass-strong"
+            >
+              <img src={certifications[active].img} alt={certifications[active].title} className="w-full h-auto" />
+              <div className="p-5 flex items-start justify-between gap-4">
+                <div>
+                  <h3 className="font-display font-semibold">{certifications[active].title}</h3>
+                  <p className="text-sm text-white/55">{certifications[active].issuer}</p>
+                </div>
+                <button onClick={() => setActive(null)} aria-label="Close certificate" className="p-2 rounded-full glass hover:text-primary transition-colors">
+                  <X className="w-5 h-5" />
+                </button>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </section>
   );
 }
