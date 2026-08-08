@@ -1117,9 +1117,9 @@ function Transformations2() {
 /* ---------------- VIDEO GALLERY ---------------- */
 const featuredVideo = {
   id: "alXY-j4zq_U",
-  title: "The #1 mistake that stops your fat loss",
-  category: "Fat Loss",
-  description: "Coach Plawan breaks down the single biggest mistake people make when trying to lose fat — and exactly how to fix it.",
+  title: "The REAL Problem With Gym Culture No One Talks About!",
+  category: "Motivation",
+  description: "Coach Plawan exposes the hidden truth behind modern gym culture — why most people stay stuck, and the mindset shift that actually creates lasting transformation.",
 };
 
 const videoThumbs = [
