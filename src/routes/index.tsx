@@ -43,6 +43,9 @@ import c10Before from "@/assets/client-10-before.jpg";
 import c10After from "@/assets/client-10-after.jpg";
 import c11Before from "@/assets/client-11-before.jpg";
 import c11After from "@/assets/client-11-after.jpg";
+import c12Before from "@/assets/client-12-before.jpg";
+import c12After from "@/assets/client-12-after.jpg";
+
 import certNasmAsset from "@/assets/cert-nasm.jpg.asset.json";
 import certCptAsset from "@/assets/cert-cpt.jpg.asset.json";
 import certMptAsset from "@/assets/cert-mpt.jpg.asset.json";
@@ -939,7 +942,25 @@ const transformations: TCard[] = [
       { x: 88, y: 87, label: "69 kg" },
     ],
   },
+  {
+    initials: "SP",
+    name: "Sunita P.",
+    category: "Women's Weight Loss",
+    before: c12Before,
+    after: c12After,
+    duration: "8 months",
+    metric: "23",
+    unit: "kg",
+    metricLabel: "Weight lost",
+    caption: "I feel confident in every outfit again — and my energy through the day is completely different.",
+    points: [
+      { x: 12, y: 16, label: "88 kg" },
+      { x: 50, y: 54, label: "76 kg" },
+      { x: 88, y: 88, label: "65 kg" },
+    ],
+  },
 ];
+
 
 function TransformationCard({ t }: { t: TCard }) {
   const [hover, setHover] = useState(false);
