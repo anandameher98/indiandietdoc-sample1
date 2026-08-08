@@ -1514,8 +1514,20 @@ function Footer() {
               Premium coaching, personalized Indian nutrition, and lifestyle transformation with Coach Plawan Hota.
             </p>
             <div className="mt-6 flex gap-3">
-              {[Instagram, Youtube, Facebook, Twitter].map((Icon, i) => (
-                <a key={i} href="#" className="w-10 h-10 rounded-full glass flex items-center justify-center hover:bg-primary hover:text-primary-foreground transition-colors">
+              {[
+                { Icon: Instagram, href: "#", label: "Instagram" },
+                { Icon: Youtube, href: "https://www.youtube.com/@indiandietdoc", label: "YouTube" },
+                { Icon: Facebook, href: "#", label: "Facebook" },
+                { Icon: Twitter, href: "#", label: "Twitter" },
+              ].map(({ Icon, href, label }) => (
+                <a
+                  key={label}
+                  href={href}
+                  target={href.startsWith("http") ? "_blank" : undefined}
+                  rel={href.startsWith("http") ? "noreferrer" : undefined}
+                  aria-label={label}
+                  className="w-10 h-10 rounded-full glass flex items-center justify-center hover:bg-primary hover:text-primary-foreground transition-colors"
+                >
                   <Icon className="w-4 h-4" />
                 </a>
               ))}
