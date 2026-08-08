@@ -1115,20 +1115,92 @@ function Transformations2() {
   );
 }
 /* ---------------- VIDEO GALLERY ---------------- */
-function VideoGallery() {
-  const cats = ["Nutrition", "Workout", "Transformation", "Recipes", "Motivation"];
-  const [active, setActive] = useState(cats[0]);
+const featuredVideo = {
+  id: "alXY-j4zq_U",
+  title: "The #1 mistake that stops your fat loss",
+  category: "Fat Loss",
+  description: "Coach Plawan breaks down the single biggest mistake people make when trying to lose fat — and exactly how to fix it.",
+};
+
+const videoThumbs = [
+  { id: "alXY-j4zq_U", title: "The #1 mistake that stops your fat loss", category: "Fat Loss", img: nutritionImg },
+  { id: "alXY-j4zq_U", title: "How to eat rice and still lose weight", category: "Nutrition", img: gymBg },
+  { id: "alXY-j4zq_U", title: "3 exercises for a stronger core", category: "Workout", img: nutritionImg },
+  { id: "alXY-j4zq_U", title: "Protein myths Indians believe", category: "Nutrition", img: gymBg },
+  { id: "alXY-j4zq_U", title: "Staying consistent with your diet", category: "Motivation", img: nutritionImg },
+  { id: "alXY-j4zq_U", title: "Beginner home workout routine", category: "Workout", img: gymBg },
+];
+
+function VideoEmbed({ videoId, title }: { videoId: string; title: string }) {
   return (
-    <section className="py-32 bg-surface">
+    <div className="relative w-full rounded-3xl overflow-hidden border border-white/10 bg-black shadow-2xl shadow-primary/10 aspect-video">
+      <iframe
+        src={`https://www.youtube.com/embed/${videoId}?rel=0&modestbranding=1&playsinline=1`}
+        title={title}
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+        allowFullScreen
+        className="absolute inset-0 w-full h-full"
+      />
+    </div>
+  );
+}
+
+function VideoGallery() {
+  const cats = ["All", "Nutrition", "Workout", "Fat Loss", "Motivation"];
+  const [active, setActive] = useState("All");
+  const filtered = active === "All" ? videoThumbs : videoThumbs.filter(v => v.category === active);
+
+  return (
+    <section id="videos" className="py-32 bg-surface">
       <div className="mx-auto max-w-7xl px-6">
-        <div className="flex items-end justify-between flex-wrap gap-6 mb-12">
-          <div>
+        <motion.div
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true, margin: "-80px" }}
+          variants={fadeUp}
+          className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12"
+        >
+          <div className="max-w-2xl">
             <SectionLabel>Video Library</SectionLabel>
             <h2 className="mt-4 text-4xl md:text-5xl font-bold">Learn from <span className="text-gradient-green">the coach</span>.</h2>
+            <p className="mt-4 text-white/60">Watch free, actionable advice from Coach Plawan. No fluff — just proven strategies that work for Indian lifestyles.</p>
           </div>
-          <Button variant="outline">View All Videos <ArrowRight className="w-4 h-4" /></Button>
-        </div>
+          <Button variant="outline" asChild>
+            <a href="https://www.youtube.com/@indiandietdoc" target="_blank" rel="noreferrer">Visit YouTube Channel <ArrowRight className="w-4 h-4" /></a>
+          </Button>
+        </motion.div>
 
+        {/* Featured video */}
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+          className="mb-16"
+        >
+          <div className="grid lg:grid-cols-5 gap-8 items-center">
+            <div className="lg:col-span-3">
+              <VideoEmbed videoId={featuredVideo.id} title={featuredVideo.title} />
+            </div>
+            <div className="lg:col-span-2">
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full glass border border-primary/20 text-primary text-xs uppercase tracking-widest mb-4">
+                <Play className="w-3 h-3 fill-current" /> Featured
+              </div>
+              <h3 className="text-2xl md:text-3xl font-bold leading-tight">{featuredVideo.title}</h3>
+              <p className="mt-4 text-white/60 leading-relaxed">{featuredVideo.description}</p>
+              <div className="mt-6 flex flex-wrap gap-3">
+                <Button asChild>
+                  <a href={`https://www.youtube.com/watch?v=${featuredVideo.id}`} target="_blank" rel="noreferrer">Watch on YouTube <Youtube className="w-4 h-4" /></a>
+                </Button>
+                <Button variant="outline" asChild>
+                  <a href="#contact">Start Coaching</a>
+                </Button>
+              </div>
+            </div>
+          </div>
+        </motion.div>
+
+        {/* Filter tabs */}
         <div className="flex flex-wrap gap-2 mb-8">
           {cats.map(c => (
             <button
@@ -1141,20 +1213,31 @@ function VideoGallery() {
           ))}
         </div>
 
+        {/* Video grid */}
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {[1, 2, 3, 4, 5, 6].map(i => (
-            <div key={i} className="group relative rounded-2xl overflow-hidden border border-white/8 aspect-video bg-card cursor-pointer hover-lift">
-              <img src={i % 2 === 0 ? nutritionImg : gymBg} alt="" className="w-full h-full object-cover opacity-60 group-hover:opacity-80 transition-opacity" loading="lazy" width={1200} height={900} />
+          {filtered.map((v, i) => (
+            <motion.a
+              key={`${v.id}-${i}`}
+              href={`https://www.youtube.com/watch?v=${v.id}`}
+              target="_blank"
+              rel="noreferrer"
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-40px" }}
+              transition={{ duration: 0.5, delay: i * 0.06, ease: [0.16, 1, 0.3, 1] }}
+              className="group relative rounded-2xl overflow-hidden border border-white/8 aspect-video bg-card cursor-pointer hover-lift block"
+            >
+              <img src={v.img} alt={v.title} className="w-full h-full object-cover opacity-60 group-hover:opacity-80 transition-opacity duration-500" loading="lazy" width={1200} height={900} />
               <div className="absolute inset-0 flex items-center justify-center">
-                <div className="w-16 h-16 rounded-full bg-primary/90 backdrop-blur flex items-center justify-center group-hover:scale-110 transition-transform">
+                <div className="w-16 h-16 rounded-full bg-primary/90 backdrop-blur flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
                   <Play className="w-6 h-6 text-primary-foreground fill-current" />
                 </div>
               </div>
-              <div className="absolute bottom-0 inset-x-0 p-5 bg-gradient-to-t from-black to-transparent">
-                <div className="text-xs text-primary uppercase tracking-widest">{active}</div>
-                <div className="font-semibold mt-1">{active} Tip #{i} — Watch on YouTube</div>
+              <div className="absolute bottom-0 inset-x-0 p-5 bg-gradient-to-t from-black via-black/70 to-transparent">
+                <div className="text-xs text-primary uppercase tracking-widest">{v.category}</div>
+                <div className="font-semibold mt-1 line-clamp-2">{v.title}</div>
               </div>
-            </div>
+            </motion.a>
           ))}
         </div>
       </div>
@@ -1414,6 +1497,8 @@ function Contact() {
 
 /* ---------------- FOOTER ---------------- */
 function Footer() {
+  const [year, setYear] = useState(2026);
+  useEffect(() => setYear(new Date().getFullYear()), []);
   return (
     <footer className="border-t border-white/5 bg-background pt-20 pb-8">
       <div className="mx-auto max-w-7xl px-6">
