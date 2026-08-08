@@ -1542,7 +1542,7 @@ function Footer() {
         </div>
 
         <div className="mt-16 pt-8 border-t border-white/5 flex flex-wrap gap-4 items-center justify-between text-xs text-white/40">
-          <div>© {new Date().getFullYear()} indiandietdoc. All rights reserved.</div>
+          <div>© {year} indiandietdoc. All rights reserved.</div>
           <div>Coaching by Plawan Hota. Results vary. Not medical advice.</div>
         </div>
       </div>
