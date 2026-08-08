@@ -1448,12 +1448,19 @@ function Contact() {
 
           <div className="mt-10 space-y-4">
             {[
-              { icon: MessageCircle, label: "WhatsApp", value: "+91 98000 00000" },
-              { icon: Mail, label: "Email", value: "hello@indiandietdoc.com" },
-              { icon: Phone, label: "Phone", value: "+91 98000 00000" },
-              { icon: MapPin, label: "Location", value: "Bhubaneswar, India (Online globally)" },
+              { icon: MessageCircle, label: "WhatsApp", value: "+91 98000 00000", href: "https://wa.me/919800000000" },
+              { icon: Mail, label: "Email", value: "hello@indiandietdoc.com", href: "mailto:hello@indiandietdoc.com" },
+              { icon: Phone, label: "Phone", value: "+91 98000 00000", href: "tel:+919800000000" },
+              { icon: MapPin, label: "Location", value: "Bhubaneswar, India (Online globally)", href: "#" },
+              { icon: Youtube, label: "YouTube", value: "@indiandietdoc", href: "https://www.youtube.com/@indiandietdoc" },
             ].map(c => (
-              <a key={c.label} href="#" className="flex items-center gap-4 p-4 rounded-2xl glass hover:border-primary/40 transition-colors group">
+              <a
+                key={c.label}
+                href={c.href}
+                target={c.href.startsWith("http") ? "_blank" : undefined}
+                rel={c.href.startsWith("http") ? "noreferrer" : undefined}
+                className="flex items-center gap-4 p-4 rounded-2xl glass hover:border-primary/40 transition-colors group"
+              >
                 <div className="w-12 h-12 rounded-xl bg-primary/10 border border-primary/20 flex items-center justify-center group-hover:bg-primary transition-colors">
                   <c.icon className="w-5 h-5 text-primary group-hover:text-primary-foreground transition-colors" />
                 </div>
