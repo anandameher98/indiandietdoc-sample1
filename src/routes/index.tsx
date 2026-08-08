@@ -120,7 +120,7 @@ function Nav() {
 
   const links = [
     ["About", "#about"], ["Services", "#services"], ["Programs", "#programs"],
-    ["Certifications", "#certifications"], ["Transformations", "#transformations"], ["Shop", "#store"], ["Contact", "#contact"],
+    ["Certifications", "#certifications"], ["Transformations", "#transformations"], ["Videos", "#videos"], ["Shop", "#store"], ["Contact", "#contact"],
   ];
 
   return (
