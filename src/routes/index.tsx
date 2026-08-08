@@ -1525,7 +1525,7 @@ function Footer() {
           <div>
             <div className="text-xs uppercase tracking-widest text-white/40">Quick Links</div>
             <ul className="mt-4 space-y-3 text-sm text-white/70">
-              {[["About", "#about"], ["Services", "#services"], ["Programs", "#programs"], ["Shop", "#store"], ["Contact", "#contact"]].map(([l, h]) => (
+              {[["About", "#about"], ["Services", "#services"], ["Programs", "#programs"], ["Videos", "#videos"], ["Shop", "#store"], ["Contact", "#contact"]].map(([l, h]) => (
                 <li key={l}><a href={h} className="hover:text-primary">{l}</a></li>
               ))}
             </ul>
