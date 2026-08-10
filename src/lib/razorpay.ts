@@ -65,10 +65,41 @@ export async function startCheckout(slug: string, onSuccess?: () => void) {
           toast.error(e instanceof Error ? e.message : "Payment verification failed.");
         }
       },
-      modal: { ondismiss: () => toast.info("Payment cancelled.") },
+      modal: {
+        escape: true,
+        backdropclose: false,
+        ondismiss: () => {
+          releasePageScroll();
+          toast.info("Payment cancelled.");
+        },
+      },
     });
     rzp.open();
   } catch (e) {
+    releasePageScroll();
     toast.error(e instanceof Error ? e.message : "Something went wrong.");
   }
+}
+
+// Razorpay's checkout locks scroll on <html>/<body> and can leave an invisible
+// overlay/container behind when the modal is dismissed, which looks like a frozen screen.
+function releasePageScroll() {
+  if (typeof document === "undefined") return;
+  const clean = () => {
+    for (const el of [document.documentElement, document.body]) {
+      el.style.overflow = "";
+      el.style.position = "";
+      el.style.top = "";
+      el.style.width = "";
+      el.style.height = "";
+      el.classList.remove("razorpay-payment-lock", "razorpay-lock");
+    }
+    document
+      .querySelectorAll(".razorpay-container, .razorpay-backdrop")
+      .forEach((n) => n.remove());
+  };
+  clean();
+  // Razorpay tears down asynchronously; re-run after its own cleanup.
+  setTimeout(clean, 350);
+  setTimeout(clean, 1200);
 }
