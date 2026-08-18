@@ -98,10 +98,10 @@ function Home() {
       <WhyChoose />
       <Certifications />
       <Services />
+      <Programs />
       <Store />
       <VideoGallery />
       <DietPlan />
-      <Programs />
       <Testimonials />
       <Blog />
       <FAQ />
