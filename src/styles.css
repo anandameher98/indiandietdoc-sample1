@@ -104,11 +104,17 @@
 .light .text-white\/55 { color: rgba(10, 10, 10, 0.55); }
 .light .text-white\/50 { color: rgba(10, 10, 10, 0.5); }
 .light .text-white\/40 { color: rgba(10, 10, 10, 0.45); }
+.light .text-white\/30 { color: rgba(10, 10, 10, 0.4); }
 .light .text-white\/5 { color: rgba(10, 10, 10, 0.08); }
+.light .border-white\/40 { border-color: rgba(10, 10, 10, 0.35); }
+.light .border-white\/20 { border-color: rgba(10, 10, 10, 0.18); }
+.light .border-white\/15 { border-color: rgba(10, 10, 10, 0.14); }
 .light .border-white\/10 { border-color: rgba(10, 10, 10, 0.1); }
 .light .border-white\/8 { border-color: rgba(10, 10, 10, 0.08); }
 .light .border-white\/5 { border-color: rgba(10, 10, 10, 0.07); }
 .light .bg-white\/40 { background-color: rgba(10, 10, 10, 0.06); }
+.light .bg-white\/10 { background-color: rgba(10, 10, 10, 0.06); }
+.light .bg-white\/5 { background-color: rgba(10, 10, 10, 0.04); }
 
 .light .glass {
   background: rgba(10, 10, 10, 0.03);
@@ -118,6 +124,40 @@
   background: rgba(255, 255, 255, 0.8);
   border-color: rgba(10, 10, 10, 0.1);
 }
+
+/* Media overlays keep their dark treatment in light mode so text
+   stays legible over photography/video. */
+.light .media-dark { color: #ffffff; }
+.light .media-dark .text-white { color: #ffffff; }
+.light .media-dark .text-white\/95 { color: rgba(255, 255, 255, 0.95); }
+.light .media-dark .text-white\/90 { color: rgba(255, 255, 255, 0.9); }
+.light .media-dark .text-white\/80 { color: rgba(255, 255, 255, 0.8); }
+.light .media-dark .text-white\/70 { color: rgba(255, 255, 255, 0.7); }
+.light .media-dark .text-white\/60 { color: rgba(255, 255, 255, 0.6); }
+.light .media-dark .text-white\/55 { color: rgba(255, 255, 255, 0.55); }
+.light .media-dark .text-white\/50 { color: rgba(255, 255, 255, 0.5); }
+.light .media-dark .text-white\/40 { color: rgba(255, 255, 255, 0.4); }
+.light .media-dark .text-white\/30 { color: rgba(255, 255, 255, 0.3); }
+.light .media-dark .border-white\/40 { border-color: rgba(255, 255, 255, 0.4); }
+.light .media-dark .border-white\/20 { border-color: rgba(255, 255, 255, 0.2); }
+.light .media-dark .border-white\/15 { border-color: rgba(255, 255, 255, 0.15); }
+.light .media-dark .border-white\/10 { border-color: rgba(255, 255, 255, 0.1); }
+.light .media-dark .border-white\/8 { border-color: rgba(255, 255, 255, 0.08); }
+.light .media-dark .border-white\/5 { border-color: rgba(255, 255, 255, 0.05); }
+.light .media-dark .bg-white\/10 { background-color: rgba(255, 255, 255, 0.1); }
+.light .media-dark .bg-white\/5 { background-color: rgba(255, 255, 255, 0.05); }
+.light .media-dark .glass,
+.light .media-dark.glass {
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(255, 255, 255, 0.12);
+}
+.light .media-dark .glass-strong,
+.light .media-dark.glass-strong {
+  background: rgba(17, 17, 17, 0.7);
+  border-color: rgba(255, 255, 255, 0.12);
+  color: #ffffff;
+}
+
 
 
 @layer base {
