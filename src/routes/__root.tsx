@@ -86,8 +86,9 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
 });
 
 function RootShell({ children }: { children: ReactNode }) {
+  const theme = import.meta.env.VITE_THEME === "light" ? "light" : "dark";
   return (
-    <html lang="en" className="dark">
+    <html lang="en" className={theme}>
       <head>
         <HeadContent />
       </head>

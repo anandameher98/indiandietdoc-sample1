@@ -70,6 +70,56 @@
   --foreground: #ffffff;
 }
 
+/* Light mode — enabled by setting VITE_THEME=light in .env */
+.light {
+  --background: #ffffff;
+  --foreground: #0a0a0a;
+  --surface: #f6f7f8;
+  --surface-elevated: #ffffff;
+  --card: #ffffff;
+  --card-foreground: #0a0a0a;
+  --popover: #ffffff;
+  --popover-foreground: #0a0a0a;
+  --primary: #16a34a;
+  --primary-hover: #15803d;
+  --primary-foreground: #ffffff;
+  --secondary: #f1f3f5;
+  --secondary-foreground: #0a0a0a;
+  --muted: #f1f3f5;
+  --muted-foreground: rgba(10, 10, 10, 0.6);
+  --accent: #16a34a;
+  --accent-foreground: #ffffff;
+  --border: rgba(10, 10, 10, 0.1);
+  --input: rgba(10, 10, 10, 0.12);
+  --ring: #16a34a;
+}
+
+/* Remap hardcoded white-on-black utilities for light mode */
+.light .text-white { color: #0a0a0a; }
+.light .text-white\/95 { color: rgba(10, 10, 10, 0.95); }
+.light .text-white\/90 { color: rgba(10, 10, 10, 0.9); }
+.light .text-white\/80 { color: rgba(10, 10, 10, 0.8); }
+.light .text-white\/70 { color: rgba(10, 10, 10, 0.7); }
+.light .text-white\/60 { color: rgba(10, 10, 10, 0.6); }
+.light .text-white\/55 { color: rgba(10, 10, 10, 0.55); }
+.light .text-white\/50 { color: rgba(10, 10, 10, 0.5); }
+.light .text-white\/40 { color: rgba(10, 10, 10, 0.45); }
+.light .text-white\/5 { color: rgba(10, 10, 10, 0.08); }
+.light .border-white\/10 { border-color: rgba(10, 10, 10, 0.1); }
+.light .border-white\/8 { border-color: rgba(10, 10, 10, 0.08); }
+.light .border-white\/5 { border-color: rgba(10, 10, 10, 0.07); }
+.light .bg-white\/40 { background-color: rgba(10, 10, 10, 0.06); }
+
+.light .glass {
+  background: rgba(10, 10, 10, 0.03);
+  border-color: rgba(10, 10, 10, 0.1);
+}
+.light .glass-strong {
+  background: rgba(255, 255, 255, 0.8);
+  border-color: rgba(10, 10, 10, 0.1);
+}
+
+
 @layer base {
   * {
     border-color: var(--color-border);

@@ -13,6 +13,10 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import coachHero from "@/assets/coach-hero.jpg";
+import heroVideoAsset from "@/assets/plawan-hero.mp4.asset.json";
+import heroPosterAsset from "@/assets/plawan-hero-poster.jpg.asset.json";
+const heroVideo = heroVideoAsset.url;
+const heroPoster = heroPosterAsset.url;
 import gymBg from "@/assets/gym-bg.jpg";
 import nutritionImg from "@/assets/nutrition.jpg";
 import transform1 from "@/assets/transform-1.jpg";
@@ -89,19 +93,20 @@ function Home() {
       <Nav />
       <Hero />
       <Marquee />
+      <Transformations2 />
       <About2 />
-      <Services />
       <WhyChoose />
       <Certifications />
-      <Programs />
-      <Transformations2 />
-      <VideoGallery />
+      <Services />
       <Store />
+      <VideoGallery />
       <DietPlan />
+      <Programs />
       <Testimonials />
       <Blog />
       <FAQ />
       <Contact />
+
       <Footer />
       <FloatingButtons />
     </div>
@@ -216,8 +221,19 @@ function Hero() {
         <div className="relative animate-scale-in hidden lg:block">
           <div className="absolute inset-0 bg-primary/20 blur-3xl rounded-full" />
           <div className="relative rounded-3xl overflow-hidden border border-white/10 aspect-[3/4] max-w-md mx-auto">
-            <img src={coachHero} alt="Coach Plawan Hota" className="w-full h-full object-cover" width={1200} height={1600} />
+            <video
+              src={heroVideo}
+              poster={heroPoster}
+              autoPlay
+              muted
+              loop
+              playsInline
+              preload="metadata"
+              aria-label="Coach Plawan Hota training"
+              className="w-full h-full object-cover"
+            />
             <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
+
             <div className="absolute bottom-6 left-6 right-6">
               <div className="glass-strong rounded-2xl p-4 flex items-center gap-3">
                 <div className="w-12 h-12 rounded-full bg-primary flex items-center justify-center">
