@@ -158,6 +158,22 @@
   color: #ffffff;
 }
 
+/* Hero backdrop fades — theme aware */
+.hero-fade-b {
+  background-image: linear-gradient(to bottom, #000, rgba(0, 0, 0, 0.7), #000);
+}
+.hero-fade-r {
+  background-image: linear-gradient(to right, #000, rgba(0, 0, 0, 0.5), transparent);
+}
+.light .hero-fade-b {
+  background-image: linear-gradient(to bottom, #fff, rgba(255, 255, 255, 0.86), #fff);
+}
+.light .hero-fade-r {
+  background-image: linear-gradient(to right, #fff, rgba(255, 255, 255, 0.7), transparent);
+}
+.light .hero-bg-img {
+  opacity: 0.18;
+}
 
 
 @layer base {
