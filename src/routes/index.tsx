@@ -172,8 +172,8 @@ function Hero() {
     <section className="relative min-h-screen flex items-center overflow-hidden pt-24">
       <div className="absolute inset-0 z-0">
         <img src={gymBg} alt="" className="w-full h-full object-cover opacity-40" width={1920} height={1080} />
-        <div className="absolute inset-0 bg-gradient-to-b from-black via-black/70 to-black" />
-        <div className="absolute inset-0 bg-gradient-to-r from-black via-black/50 to-transparent" />
+        <div className="absolute inset-0 hero-fade-b" />
+        <div className="absolute inset-0 hero-fade-r" />
       </div>
 
       <div className="relative z-10 mx-auto max-w-7xl px-6 py-20 grid lg:grid-cols-2 gap-12 items-center w-full">
@@ -220,7 +220,7 @@ function Hero() {
 
         <div className="relative animate-scale-in hidden lg:block">
           <div className="absolute inset-0 bg-primary/20 blur-3xl rounded-full" />
-          <div className="relative rounded-3xl overflow-hidden border border-white/10 aspect-[3/4] max-w-md mx-auto">
+          <div className="media-dark relative rounded-3xl overflow-hidden border border-white/10 aspect-[3/4] max-w-md mx-auto">
             <video
               src={heroVideo}
               poster={heroPoster}
@@ -985,7 +985,7 @@ function TransformationCard({ t }: { t: TCard }) {
     <div
       onMouseEnter={() => setHover(true)}
       onMouseLeave={() => setHover(false)}
-      className="group relative rounded-2xl overflow-hidden aspect-[3/4] border border-border cursor-pointer bg-black"
+      className="media-dark group relative rounded-2xl overflow-hidden aspect-[3/4] border border-border cursor-pointer bg-black"
     >
       {/* before / after split */}
       <div className="absolute inset-0 flex">
@@ -1149,7 +1149,7 @@ const videoThumbs = [
 
 function VideoEmbed({ videoId, title }: { videoId: string; title: string }) {
   return (
-    <div className="relative w-full rounded-3xl overflow-hidden border border-white/10 bg-black shadow-2xl shadow-primary/10 aspect-video">
+    <div className="media-dark relative w-full rounded-3xl overflow-hidden border border-white/10 bg-black shadow-2xl shadow-primary/10 aspect-video">
       <iframe
         src={`https://www.youtube.com/embed/${videoId}?rel=0&modestbranding=1&playsinline=1`}
         title={title}
@@ -1249,7 +1249,7 @@ function VideoGallery() {
                   <Play className="w-6 h-6 text-primary-foreground fill-current" />
                 </div>
               </div>
-              <div className="absolute bottom-0 inset-x-0 p-5 bg-gradient-to-t from-black via-black/70 to-transparent">
+              <div className="media-dark absolute bottom-0 inset-x-0 p-5 bg-gradient-to-t from-black via-black/70 to-transparent">
                 <div className="text-xs text-primary uppercase tracking-widest">{v.category}</div>
                 <div className="font-semibold mt-1 line-clamp-2">{v.title}</div>
               </div>
@@ -1283,7 +1283,7 @@ function Store() {
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {books.map(b => (
             <div key={b.title} className="group rounded-3xl border border-white/8 bg-card overflow-hidden hover-lift">
-              <div className="relative aspect-[4/5] overflow-hidden bg-black">
+              <div className="media-dark relative aspect-[4/5] overflow-hidden bg-black">
                 <img src={b.img} alt={b.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" loading="lazy" width={800} height={1000} />
               </div>
               <div className="p-6">
@@ -1650,7 +1650,7 @@ function Certifications() {
               transition={{ duration: 0.6, delay: i * 0.08, ease: [0.16, 1, 0.3, 1] }}
               className="group text-left rounded-3xl glass overflow-hidden hover-lift focus:outline-none focus:ring-2 focus:ring-primary/60"
             >
-              <div className="relative aspect-[4/3] overflow-hidden bg-black">
+              <div className="media-dark relative aspect-[4/3] overflow-hidden bg-black">
                 <img
                   src={c.img} alt={`${c.title} certificate awarded to Plawan Hota by ${c.issuer}`}
                   loading="lazy"
@@ -1676,7 +1676,7 @@ function Certifications() {
           <motion.div
             initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
             onClick={() => setActive(null)}
-            className="fixed inset-0 z-[60] bg-black/90 backdrop-blur-md flex items-center justify-center p-6"
+            className="media-dark fixed inset-0 z-[60] bg-black/90 backdrop-blur-md flex items-center justify-center p-6"
           >
             <motion.div
               initial={{ scale: 0.94, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} exit={{ scale: 0.96, opacity: 0 }}
