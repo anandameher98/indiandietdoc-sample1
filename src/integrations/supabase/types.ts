@@ -19,37 +19,49 @@ export type Database = {
           amount_paise: number
           created_at: string
           currency: string
+          customer_email: string | null
+          customer_name: string | null
+          customer_whatsapp: string | null
+          delivered_at: string | null
           id: string
           paid_at: string | null
           product_id: string
           razorpay_order_id: string
           razorpay_payment_id: string | null
           status: string
-          user_id: string
+          user_id: string | null
         }
         Insert: {
           amount_paise: number
           created_at?: string
           currency?: string
+          customer_email?: string | null
+          customer_name?: string | null
+          customer_whatsapp?: string | null
+          delivered_at?: string | null
           id?: string
           paid_at?: string | null
           product_id: string
           razorpay_order_id: string
           razorpay_payment_id?: string | null
           status?: string
-          user_id: string
+          user_id?: string | null
         }
         Update: {
           amount_paise?: number
           created_at?: string
           currency?: string
+          customer_email?: string | null
+          customer_name?: string | null
+          customer_whatsapp?: string | null
+          delivered_at?: string | null
           id?: string
           paid_at?: string | null
           product_id?: string
           razorpay_order_id?: string
           razorpay_payment_id?: string | null
           status?: string
-          user_id?: string
+          user_id?: string | null
         }
         Relationships: [
           {
@@ -72,6 +84,7 @@ export type Database = {
           id: string
           kind: string
           name: string
+          sample_pdf_url: string | null
           slug: string
         }
         Insert: {
@@ -84,6 +97,7 @@ export type Database = {
           id?: string
           kind?: string
           name: string
+          sample_pdf_url?: string | null
           slug: string
         }
         Update: {
@@ -96,6 +110,7 @@ export type Database = {
           id?: string
           kind?: string
           name?: string
+          sample_pdf_url?: string | null
           slug?: string
         }
         Relationships: []
