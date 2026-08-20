@@ -171,7 +171,7 @@ function Hero() {
   return (
     <section className="relative min-h-screen flex items-center overflow-hidden pt-24">
       <div className="absolute inset-0 z-0">
-        <img src={gymBg} alt="" className="w-full h-full object-cover opacity-40" width={1920} height={1080} />
+        <img src={gymBg} alt="" className="hero-bg-img w-full h-full object-cover opacity-40" width={1920} height={1080} />
         <div className="absolute inset-0 hero-fade-b" />
         <div className="absolute inset-0 hero-fade-r" />
       </div>
