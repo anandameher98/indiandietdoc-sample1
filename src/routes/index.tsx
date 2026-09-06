@@ -1120,7 +1120,7 @@ function Transformations2() {
       id="transformations"
       eyebrow="Transformations"
       title={<>Real people. <span className="text-primary">Real results.</span></>}
-      className="bg-[#0a0a0a] border-y border-border"
+      className="media-dark bg-[#0a0a0a] border-y border-border"
     >
       <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
         {transformations.map((t) => (
