@@ -1,6 +1,7 @@
 import { createRazorpayOrder, verifyRazorpayPayment } from "./payments.functions";
-import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
+
+export type CheckoutCustomer = { name: string; email: string; whatsapp: string };
 
 declare global {
   interface Window {
