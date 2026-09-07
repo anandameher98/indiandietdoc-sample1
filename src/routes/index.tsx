@@ -8,7 +8,7 @@ import {
   Instagram, Youtube, Facebook, Twitter,Sparkles, HeartPulse, Trophy
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { startCheckout } from "@/lib/razorpay";
+import { CheckoutDialog, requestCheckout } from "@/components/checkout-dialog";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -109,6 +109,7 @@ function Home() {
 
       <Footer />
       <FloatingButtons />
+      <CheckoutDialog />
     </div>
   );
 }
@@ -171,7 +172,20 @@ function Hero() {
   return (
     <section className="relative min-h-screen flex items-center overflow-hidden pt-24">
       <div className="absolute inset-0 z-0">
-        <img src={gymBg} alt="" className="hero-bg-img w-full h-full object-cover opacity-40" width={1920} height={1080} />
+        <img src={gymBg} alt="" className="hero-bg-img w-full h-full object-cover opacity-40 hidden lg:block" width={1920} height={1080} />
+        {/* Mobile/tablet: the coach video plays as the hero backdrop */}
+        <video
+          src={heroVideo}
+          poster={heroPoster}
+          autoPlay
+          muted
+          loop
+          playsInline
+          preload="metadata"
+          aria-hidden="true"
+          tabIndex={-1}
+          className="lg:hidden w-full h-full object-cover opacity-60"
+        />
         <div className="absolute inset-0 hero-fade-b" />
         <div className="absolute inset-0 hero-fade-r" />
       </div>
@@ -584,7 +598,7 @@ function Programs() {
                   </li>
                 ))}
               </ul>
-              <Button variant={p.featured ? "hero" : "outline"} size="lg" className="mt-8 w-full" onClick={() => startCheckout(p.slug)}>Join Now</Button>
+              <Button variant={p.featured ? "hero" : "outline"} size="lg" className="mt-8 w-full" onClick={() => requestCheckout(p.slug, p.name)}>Join Now</Button>
             </div>
           ))}
         </div>
@@ -1291,7 +1305,7 @@ function Store() {
                 <p className="text-sm text-white/50 mt-2 line-clamp-2">{b.desc}</p>
                 <div className="mt-4 flex items-center justify-between">
                   <div className="text-xl font-bold">₹{b.price}</div>
-                  <Button size="sm" onClick={() => startCheckout(b.slug)}>Buy Now</Button>
+                  <Button size="sm" onClick={() => requestCheckout(b.slug, b.title)}>Buy Now</Button>
                 </div>
               </div>
             </div>
