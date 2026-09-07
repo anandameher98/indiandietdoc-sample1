@@ -170,7 +170,7 @@ function Nav() {
 /* ---------------- HERO ---------------- */
 function Hero() {
   return (
-    <section className="relative min-h-screen flex items-center overflow-hidden pt-24">
+    <section className="hero-mobile-dark relative min-h-screen flex items-center overflow-hidden pt-24">
       <div className="absolute inset-0 z-0">
         <img src={gymBg} alt="" className="hero-bg-img w-full h-full object-cover opacity-40 hidden lg:block" width={1920} height={1080} />
         {/* Mobile/tablet: the coach video plays as the hero backdrop */}
@@ -181,14 +181,16 @@ function Hero() {
           muted
           loop
           playsInline
-          preload="metadata"
+          preload="auto"
           aria-hidden="true"
           tabIndex={-1}
-          className="lg:hidden w-full h-full object-cover opacity-60"
+          className="lg:hidden absolute inset-0 w-full h-full object-cover object-top"
         />
-        <div className="absolute inset-0 hero-fade-b" />
-        <div className="absolute inset-0 hero-fade-r" />
+        <div className="absolute inset-0 hero-scrim lg:hidden" />
+        <div className="absolute inset-0 hero-fade-b hidden lg:block" />
+        <div className="absolute inset-0 hero-fade-r hidden lg:block" />
       </div>
+
 
       <div className="relative z-10 mx-auto max-w-7xl px-6 py-20 grid lg:grid-cols-2 gap-12 items-center w-full">
         <div className="animate-fade-up">
@@ -212,7 +214,7 @@ function Hero() {
             <Button variant="hero" size="xl" asChild>
               <a href="#programs">Start Your Transformation <ArrowRight className="w-4 h-4" /></a>
             </Button>
-            <Button variant="outline" size="xl" asChild>
+            <Button variant="outline" size="xl" className="border-white/40 text-white bg-white/10 hover:bg-white/20 lg:border-border lg:text-foreground lg:bg-transparent" asChild>
               <a href="#contact">Book Free Consultation</a>
             </Button>
           </div>
