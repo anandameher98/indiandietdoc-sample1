@@ -48,8 +48,9 @@ export async function startCheckout(
       order_id: order.orderId,
       theme: { color: "#22C55E" },
       prefill: {
-        email: userData.user.email ?? "",
-        name: (userData.user.user_metadata?.full_name as string | undefined) ?? "",
+        email: customer.email,
+        name: customer.name,
+        contact: customer.whatsapp,
       },
       handler: async (response: {
         razorpay_order_id: string;
