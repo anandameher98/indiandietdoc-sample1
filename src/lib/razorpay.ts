@@ -29,17 +29,15 @@ function loadRazorpayScript(): Promise<void> {
   return scriptPromise;
 }
 
-export async function startCheckout(slug: string, onSuccess?: () => void) {
-  const { data: userData } = await supabase.auth.getUser();
-  if (!userData.user) {
-    const next = encodeURIComponent(`${window.location.pathname}${window.location.hash}`);
-    window.location.href = `/auth?next=${next}`;
-    return;
-  }
-
+export async function startCheckout(
+  slug: string,
+  customer: CheckoutCustomer,
+  onSuccess?: () => void,
+) {
   try {
     await loadRazorpayScript();
-    const order = await createRazorpayOrder({ data: { slug } });
+    const order = await createRazorpayOrder({ data: { slug, customer } });
+
 
     const rzp = new window.Razorpay!({
       key: order.keyId,
