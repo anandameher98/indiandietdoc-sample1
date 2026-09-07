@@ -181,14 +181,16 @@ function Hero() {
           muted
           loop
           playsInline
-          preload="metadata"
+          preload="auto"
           aria-hidden="true"
           tabIndex={-1}
-          className="lg:hidden w-full h-full object-cover opacity-60"
+          className="lg:hidden absolute inset-0 w-full h-full object-cover object-top"
         />
-        <div className="absolute inset-0 hero-fade-b" />
-        <div className="absolute inset-0 hero-fade-r" />
+        <div className="absolute inset-0 hero-scrim lg:hidden" />
+        <div className="absolute inset-0 hero-fade-b hidden lg:block" />
+        <div className="absolute inset-0 hero-fade-r hidden lg:block" />
       </div>
+
 
       <div className="relative z-10 mx-auto max-w-7xl px-6 py-20 grid lg:grid-cols-2 gap-12 items-center w-full">
         <div className="animate-fade-up">
