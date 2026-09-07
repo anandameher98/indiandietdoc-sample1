@@ -170,7 +170,7 @@ function Nav() {
 /* ---------------- HERO ---------------- */
 function Hero() {
   return (
-    <section className="relative min-h-screen flex items-center overflow-hidden pt-24">
+    <section className="hero-mobile-dark relative min-h-screen flex items-center overflow-hidden pt-24">
       <div className="absolute inset-0 z-0">
         <img src={gymBg} alt="" className="hero-bg-img w-full h-full object-cover opacity-40 hidden lg:block" width={1920} height={1080} />
         {/* Mobile/tablet: the coach video plays as the hero backdrop */}
