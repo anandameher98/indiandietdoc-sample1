@@ -214,7 +214,7 @@ function Hero() {
             <Button variant="hero" size="xl" asChild>
               <a href="#programs">Start Your Transformation <ArrowRight className="w-4 h-4" /></a>
             </Button>
-            <Button variant="outline" size="xl" asChild>
+            <Button variant="outline" size="xl" className="border-white/40 text-white bg-white/10 hover:bg-white/20 lg:border-border lg:text-foreground lg:bg-transparent" asChild>
               <a href="#contact">Book Free Consultation</a>
             </Button>
           </div>
