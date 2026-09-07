@@ -272,8 +272,8 @@
    while text stays readable in both themes. */
 .hero-scrim {
   background:
-    linear-gradient(to bottom, rgba(0,0,0,0.55), rgba(0,0,0,0.35) 40%, rgba(0,0,0,0.85)),
-    linear-gradient(to right, rgba(0,0,0,0.6), rgba(0,0,0,0.15));
+    linear-gradient(to bottom, rgba(0,0,0,0.35), rgba(0,0,0,0.3) 45%, rgba(0,0,0,0.7)),
+    linear-gradient(to right, rgba(0,0,0,0.35), rgba(0,0,0,0.1));
 }
 
 @media (max-width: 1023px) {
@@ -284,6 +284,9 @@
   .light .hero-mobile-dark .text-white\/70 { color: rgba(255,255,255,0.7); }
   .light .hero-mobile-dark .text-white\/60 { color: rgba(255,255,255,0.6); }
   .light .hero-mobile-dark .text-white\/50 { color: rgba(255,255,255,0.5); }
+  .light .hero-mobile-dark .border-white\/20 { border-color: rgba(255,255,255,0.35); }
+  .light .hero-mobile-dark .border-white\/10 { border-color: rgba(255,255,255,0.2); }
+  .light .hero-mobile-dark .bg-white\/10 { background-color: rgba(255,255,255,0.1); }
   .light .hero-mobile-dark .glass {
     background: rgba(255,255,255,0.08);
     border-color: rgba(255,255,255,0.16);
